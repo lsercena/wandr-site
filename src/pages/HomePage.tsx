@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SeoHead from '@/components/ui/SeoHead';
 import CountryCard from '@/components/ui/CountryCard';
+import NewsletterForm from '@/components/ui/NewsletterForm';
 import { countryService, guideService } from '@/services/countryService';
 import { testimonials } from '@/data/countries';
 import WorldMap from '@/components/map/WorldMap';
@@ -192,18 +193,7 @@ export default function HomePage() {
         <div className="container newsletter__inner">
           <h2>Stay ahead of visa changes</h2>
           <p>Weekly travel intelligence — visa updates, new nomad programs, and cost-of-living insights.</p>
-          <form className="newsletter__form" onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-            <input
-              id="newsletter-email"
-              type="email"
-              className="newsletter__input"
-              placeholder="your@email.com"
-              required
-            />
-            <button type="submit" className="btn btn-primary">Subscribe</button>
-          </form>
-          {/* TODO: Connect to newsletter API (Mailchimp, ConvertKit, etc.) */}
+          <NewsletterForm inputId="home-newsletter-email" />
         </div>
       </section>
     </>

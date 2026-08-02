@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wandr-travel-test.netlify.app/sitemap.xml

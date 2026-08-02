@@ -11,10 +11,12 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [socialNotice, setSocialNotice] = useState(false);
 
+  // TODO: Replace with Supabase / Firebase / Auth0 when auth backend is ready.
+  // Currently shows a "coming soon" confirmation so the UI is never a silent no-op.
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with Supabase / Firebase / Auth0
     setSubmitted(true);
   };
 
@@ -61,10 +63,17 @@ export default function LoginPage() {
           <div className="login-form-wrap">
             <h1 className="login-form__title">{titles[mode]}</h1>
 
-            {submitted && mode === 'reset' ? (
+            {submitted ? (
               <div className="login-success">
-                <p>✓ If that email exists, you'll receive a reset link shortly.</p>
-                <button type="button" className="btn btn-ghost" onClick={() => { setMode('login'); setSubmitted(false); }}>
+                {mode === 'reset' ? (
+                  <p>✓ If that email exists, you'll receive a reset link shortly.</p>
+                ) : (
+                  <>
+                    <p>✓ Thanks! Account creation is coming soon.</p>
+                    <p style={{ fontSize: 13, opacity: 0.8 }}>We'll email <strong>{email}</strong> when accounts go live.</p>
+                  </>
+                )}
+                <button type="button" className="btn btn-ghost" onClick={() => { setMode('login'); setSubmitted(false); setEmail(''); setPassword(''); setName(''); }}>
                   Back to login
                 </button>
               </div>
@@ -73,10 +82,15 @@ export default function LoginPage() {
                 {/* Social login */}
                 {mode !== 'reset' && (
                   <div className="login-social">
+                    {socialNotice && (
+                      <p className="login-social-notice" role="status">
+                        Social login is coming soon. Use email below for early access.
+                      </p>
+                    )}
                     <button
                       type="button"
                       className="login-social-btn"
-                      onClick={() => { /* TODO: Google OAuth */ }}
+                      onClick={() => setSocialNotice(true)}
                     >
                       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
                         <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
@@ -89,7 +103,7 @@ export default function LoginPage() {
                     <button
                       type="button"
                       className="login-social-btn"
-                      onClick={() => { /* TODO: Apple Sign In */ }}
+                      onClick={() => setSocialNotice(true)}
                     >
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true">
                         <path d="M13.4 9.55c-.02-2.03 1.66-3.01 1.73-3.06-.94-1.37-2.4-1.56-2.92-1.58-1.24-.13-2.43.73-3.06.73-.63 0-1.6-.71-2.63-.69-1.35.02-2.6.78-3.3 1.99-1.41 2.44-.36 6.07 1.01 8.06.67.97 1.47 2.06 2.52 2.02 1.01-.04 1.39-.65 2.61-.65 1.22 0 1.56.65 2.63.63 1.09-.02 1.78-.99 2.44-1.96.77-1.12 1.09-2.2 1.1-2.26-.02-.01-2.12-.81-2.14-3.23z"/>

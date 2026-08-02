@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SeoHead from '@/components/ui/SeoHead';
 import { guideService } from '@/services/countryService';
+import NewsletterForm from '@/components/ui/NewsletterForm';
 import type { TravelGuide } from '@/types';
 import './GuidesPage.css';
 
@@ -108,18 +109,7 @@ export default function GuidesPage() {
             <div className="container-narrow">
               <h2>Never miss a visa update</h2>
               <p>Weekly travel intelligence — visa changes, new nomad programs, and destination deep-dives.</p>
-              <form className="newsletter__form" onSubmit={(e) => e.preventDefault()}>
-                <label htmlFor="guides-newsletter-email" className="sr-only">Email address</label>
-                <input
-                  id="guides-newsletter-email"
-                  type="email"
-                  className="newsletter__input"
-                  placeholder="your@email.com"
-                  required
-                />
-                <button type="submit" className="btn btn-primary">Subscribe</button>
-                {/* TODO: Connect to Mailchimp / ConvertKit */}
-              </form>
+              <NewsletterForm inputId="guides-newsletter-email" />
             </div>
           </div>
         </div>

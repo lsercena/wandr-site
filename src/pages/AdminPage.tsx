@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SeoHead from '@/components/ui/SeoHead';
 import { countryService, guideService } from '@/services/countryService';
@@ -14,12 +15,12 @@ const STATS = [
 ];
 
 const QUICK_ACTIONS = [
-  { label: 'Add Country', desc: 'Add a new country to the database', icon: '🌍', to: '#' },
-  { label: 'Update Visa', desc: 'Edit visa requirements for a country', icon: '📋', to: '#' },
-  { label: 'Publish Guide', desc: 'Write and publish a travel guide', icon: '✍️', to: '#' },
-  { label: 'SEO Pages', desc: 'Manage dynamic SEO landing pages', icon: '📈', to: '#' },
-  { label: 'Newsletter', desc: 'Compose and send a newsletter', icon: '✉️', to: '#' },
-  { label: 'Analytics', desc: 'View traffic and engagement data', icon: '📊', to: '#' },
+  { label: 'Add Country', desc: 'Add a new country to the database', icon: '🌍' },
+  { label: 'Update Visa', desc: 'Edit visa requirements for a country', icon: '📋' },
+  { label: 'Publish Guide', desc: 'Write and publish a travel guide', icon: '✍️' },
+  { label: 'SEO Pages', desc: 'Manage dynamic SEO landing pages', icon: '📈' },
+  { label: 'Newsletter', desc: 'Compose and send a newsletter', icon: '✉️' },
+  { label: 'Analytics', desc: 'View traffic and engagement data', icon: '📊' },
 ];
 
 // Mock recent activity for display
@@ -39,6 +40,13 @@ const TYPE_BADGES: Record<string, string> = {
 };
 
 export default function AdminPage() {
+  const [toast, setToast] = useState<string | null>(null);
+
+  const handleActionClick = (label: string) => {
+    setToast(`${label} — CMS coming soon`);
+    setTimeout(() => setToast(null), 3000);
+  };
+
   const countries = countryService.getAll();
   const guides = guideService.getAll();
   const nomadVisas = countryService.getNomadVisas();
@@ -88,21 +96,24 @@ export default function AdminPage() {
             {/* Quick actions */}
             <div>
               <h2 className="admin-section-title">Quick Actions</h2>
+              {toast && (
+                <div className="admin-toast" role="status" aria-live="polite">{toast}</div>
+              )}
               <div className="admin-actions">
                 {QUICK_ACTIONS.map((action) => (
-                  <a
+                  <button
                     key={action.label}
-                    href={action.to}
+                    type="button"
                     className="admin-action card"
-                    onClick={(e) => { if (action.to === '#') e.preventDefault(); }}
+                    onClick={() => handleActionClick(action.label)}
                   >
                     <span className="admin-action__icon" aria-hidden="true">{action.icon}</span>
                     <div>
                       <strong>{action.label}</strong>
                       <p>{action.desc}</p>
                     </div>
-                    <span className="admin-action__arrow">→</span>
-                  </a>
+                    <span className="badge badge-gold admin-action__badge">Soon</span>
+                  </button>
                 ))}
               </div>
             </div>

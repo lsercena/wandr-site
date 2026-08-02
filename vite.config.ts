@@ -13,12 +13,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          pages: [
-            './src/pages/CountryPage',
-            './src/pages/ComparePage',
-            './src/pages/VisaFinderPage',
-          ],
+          vendor: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
         },
       },
     },

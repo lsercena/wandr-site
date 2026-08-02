@@ -108,7 +108,7 @@
   font-size: 13px; font-weight: 600;
 }
 .testimonial__author strong { display: block; font-size: 14px; }
-.testimonial__author span { font-size: 12px; color: var(--subtle); }
+.testimonial__author > div span { font-size: 12px; color: var(--subtle); }
 
 .newsletter {
   background: linear-gradient(135deg, var(--deep) 0%, #3D2C1A 100%);

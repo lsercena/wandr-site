@@ -1,6 +1,13 @@
 import { Link } from 'react-router-dom';
-import { seoPages } from '@/data/countries';
 import './Footer.css';
+
+const FOOTER_SEO_LINKS = [
+  { slug: 'cheapest-countries-digital-nomads', h1: 'Cheapest Countries for Digital Nomads' },
+  { slug: 'best-digital-nomad-visas', h1: 'Best Digital Nomad Visas' },
+  { slug: 'europe-digital-nomad-visa', h1: 'Europe Digital Nomad Visas' },
+  { slug: 'best-countries-remote-work', h1: 'Best Countries for Remote Work' },
+  { slug: 'tax-free-countries-digital-nomads', h1: 'Tax-Free Countries for Nomads' },
+];
 
 export default function Footer() {
   return (
@@ -15,7 +22,7 @@ export default function Footer() {
           </div>
 
           <div className="footer__col">
-            <h4 className="footer__heading">Platform</h4>
+            <p className="footer__heading">Platform</p>
             <Link to="/explore">Explore Countries</Link>
             <Link to="/visa-finder">Visa Finder</Link>
             <Link to="/cost-calculator">Cost Calculator</Link>
@@ -24,7 +31,7 @@ export default function Footer() {
           </div>
 
           <div className="footer__col">
-            <h4 className="footer__heading">Resources</h4>
+            <p className="footer__heading">Resources</p>
             <Link to="/digital-nomad-visas">Nomad Visas</Link>
             <Link to="/guides">Travel Guides</Link>
             <Link to="/resources">Tax Intelligence</Link>
@@ -32,8 +39,8 @@ export default function Footer() {
           </div>
 
           <div className="footer__col">
-            <h4 className="footer__heading">Popular Guides</h4>
-            {seoPages.slice(0, 5).map((page) => (
+            <p className="footer__heading">Popular Guides</p>
+            {FOOTER_SEO_LINKS.map((page) => (
               <Link key={page.slug} to={`/seo/${page.slug}`}>{page.h1}</Link>
             ))}
           </div>

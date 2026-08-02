@@ -3,12 +3,12 @@
 :root {
   --sand: #F5EFE0;
   --ink: #1A1410;
-  --terra: #C4622D;
+  --terra: #9E4A1E;
   --gold: #D4A853;
   --mist: #E8E0D0;
   --deep: #2C2016;
   --muted: #6B5E4E;
-  --subtle: #9E8E7E;
+  --subtle: #6B5A4A;
   --white: #FFFFFF;
   --success: #2D6A4F;
   --error: #8B3A1E;
@@ -162,6 +162,21 @@ h3 { font-size: clamp(20px, 3vw, 28px); }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
   .btn { padding: 12px 20px; }
+}
+
+.newsletter__confirm {
+  color: rgba(245,239,224,0.9);
+  font-size: 15px;
+  text-align: center;
+  padding: 14px 0;
+}
+
+.newsletter__error {
+  color: #ffb3a0;
+  font-size: 12px;
+  margin-top: 6px;
+  text-align: center;
+  width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {

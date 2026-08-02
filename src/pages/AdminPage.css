@@ -74,13 +74,25 @@
   gap: 10px;
 }
 
+.admin-toast {
+  background: var(--deep);
+  color: var(--sand);
+  font-size: 13px;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  animation: fadeIn 0.2s ease;
+}
+
 .admin-action {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 16px 20px;
-  text-decoration: none;
   color: inherit;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
@@ -106,10 +118,9 @@
   color: var(--subtle);
 }
 
-.admin-action__arrow {
+.admin-action__badge {
   margin-left: auto;
-  color: var(--subtle);
-  font-size: 14px;
+  flex-shrink: 0;
 }
 
 .admin-activity-item {
