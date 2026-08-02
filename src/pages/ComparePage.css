@@ -1,0 +1,257 @@
+.compare-selector-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 40px 0 32px;
+}
+
+.compare-slot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  min-width: 180px;
+  position: relative;
+}
+
+.compare-slot__color {
+  width: 4px;
+  height: 32px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.compare-slot__flag {
+  font-size: 20px;
+}
+
+.compare-slot strong {
+  font-size: 14px;
+  flex: 1;
+}
+
+.compare-slot__remove {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--mist);
+  background: none;
+  font-size: 16px;
+  color: var(--subtle);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  line-height: 1;
+}
+
+.compare-slot__remove:hover {
+  border-color: var(--error);
+  color: var(--error);
+  background: var(--error-bg);
+}
+
+.compare-add {
+  padding: 12px 16px;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+}
+
+.compare-add__select {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: var(--terra);
+  cursor: pointer;
+  width: 100%;
+  padding: 0;
+  padding-right: 28px;
+}
+
+.compare-empty {
+  text-align: center;
+  padding: 80px 0;
+  color: var(--muted);
+}
+
+.compare-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+/* Table */
+.compare-table {
+  overflow: hidden;
+}
+
+.compare-row {
+  display: grid;
+  grid-template-columns: 200px repeat(3, 1fr);
+  align-items: center;
+  border-bottom: 1px solid var(--mist);
+}
+
+.compare-row:last-child {
+  border-bottom: none;
+}
+
+.compare-row--header {
+  background: var(--sand);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.compare-row__metric {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--muted);
+  border-right: 1px solid var(--mist);
+}
+
+.compare-row--header .compare-row__metric {
+  color: var(--subtle);
+}
+
+.compare-row__country {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border-right: 1px solid var(--mist);
+}
+
+.compare-row__country:last-child {
+  border-right: none;
+}
+
+.compare-row__country a:hover {
+  color: var(--terra);
+}
+
+.compare-row__value {
+  padding: 10px 20px;
+  border-right: 1px solid var(--mist);
+}
+
+.compare-row__value:last-child {
+  border-right: none;
+}
+
+.compare-row__value--best .compare-score__fill {
+  background: var(--terra) !important;
+}
+
+.compare-row__value--best .compare-score__val {
+  color: var(--terra);
+  font-weight: 700;
+}
+
+/* Score bar */
+.compare-score {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.compare-score__bar {
+  flex: 1;
+  height: 6px;
+  background: var(--mist);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.compare-score__fill {
+  height: 100%;
+  background: var(--muted);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.compare-score__val {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Fact cards */
+.compare-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.compare-fact-card {
+  display: flex;
+  overflow: hidden;
+}
+
+.compare-fact-card__accent {
+  width: 5px;
+  flex-shrink: 0;
+}
+
+.compare-fact-card__body {
+  padding: 20px;
+  flex: 1;
+}
+
+.compare-fact-card__body h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.compare-fact-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+}
+
+.compare-fact-list > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.compare-fact-list dt {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.compare-fact-list dd {
+  font-size: 13px;
+  color: var(--deep);
+}
+
+@media (max-width: 768px) {
+  .compare-row {
+    grid-template-columns: 140px repeat(3, 1fr);
+  }
+
+  .compare-row__metric,
+  .compare-row__country,
+  .compare-row__value {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .compare-row {
+    grid-template-columns: 100px repeat(2, 1fr);
+  }
+}

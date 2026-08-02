@@ -1,0 +1,265 @@
+.calc-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 40px;
+}
+
+.calc-form {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calc-form__heading {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.calc-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.calc-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.calc-options--row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.calc-option {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid var(--mist);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--sand);
+}
+
+.calc-option:hover {
+  border-color: var(--terra);
+}
+
+.calc-option--active {
+  border-color: var(--terra);
+  background: rgba(196, 98, 45, 0.06);
+}
+
+.calc-option--active strong {
+  color: var(--terra);
+}
+
+.calc-option strong {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--deep);
+}
+
+.calc-option span {
+  font-size: 12px;
+  color: var(--subtle);
+}
+
+.calc-option--sm {
+  flex-direction: row;
+  align-items: center;
+  padding: 9px 14px;
+}
+
+/* Results */
+.calc-results__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 40px;
+  gap: 16px;
+  color: var(--muted);
+  background: var(--white);
+  border: 1px solid var(--mist);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.calc-placeholder-icon {
+  font-size: 48px;
+  opacity: 0.4;
+}
+
+.calc-banner {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  border: 1px solid;
+  margin-bottom: 20px;
+}
+
+.calc-banner--good {
+  background: rgba(45, 106, 79, 0.08);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.calc-banner--warn {
+  background: var(--error-bg);
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.calc-banner__icon {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.calc-banner strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.calc-banner p {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.calc-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.calc-total-card {
+  background: var(--white);
+  border: 1px solid var(--mist);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.calc-total-card span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.calc-total-card strong {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  color: var(--deep);
+}
+
+.calc-total-card--recommended {
+  background: var(--terra);
+  border-color: var(--terra);
+}
+
+.calc-total-card--recommended span {
+  color: rgba(255,255,255,0.7);
+}
+
+.calc-total-card--recommended strong {
+  color: var(--white);
+}
+
+/* Cost bars */
+.cost-bar {
+  margin-bottom: 14px;
+}
+
+.cost-bar__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.cost-bar__label {
+  flex: 1;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cost-bar__value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--deep);
+  min-width: 60px;
+  text-align: right;
+}
+
+.cost-bar__pct {
+  font-size: 11px;
+  color: var(--subtle);
+  min-width: 30px;
+  text-align: right;
+}
+
+.cost-bar__track {
+  height: 7px;
+  background: var(--mist);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cost-bar__fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+/* Context strip */
+.calc-context {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  margin-top: 16px;
+}
+
+.calc-context__flag {
+  font-size: 28px;
+}
+
+.calc-context strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.calc-context p {
+  font-size: 12px;
+  color: var(--subtle);
+}
+
+.calc-note {
+  font-size: 11px;
+  color: var(--subtle);
+  margin-top: 16px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .calc-layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,10 @@
+.guide-card { text-decoration: none; color: inherit; }
+.guide-card__img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.guide-card__body { padding: 20px; }
+.guide-card__title { font-size: 18px; margin: 8px 0; }
+.guide-card__title--lg { font-size: 26px; }
+.guide-card__excerpt { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.guide-card__meta { font-size: 12px; color: var(--subtle); display: flex; gap: 6px; margin-top: 12px; }
+
+.guide-card--large .guide-card__img { aspect-ratio: 21/9; max-height: 400px; }
+.guide-card--large .guide-card__body { padding: 28px; }

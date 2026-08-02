@@ -1,0 +1,142 @@
+.resource-tools {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 40px 0 64px;
+}
+
+.resource-tool {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.resource-tool:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 0 var(--mist);
+}
+
+.resource-tool__icon {
+  font-size: 24px;
+}
+
+.resource-tool strong {
+  display: block;
+  font-size: 13px;
+  color: var(--deep);
+  margin-bottom: 2px;
+}
+
+.resource-tool span {
+  font-size: 11px;
+  color: var(--subtle);
+}
+
+/* Sections */
+.resource-section {
+  margin-bottom: 56px;
+}
+
+.resource-section__title {
+  font-size: 26px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--mist);
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.resource-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resource-card__title {
+  font-size: 16px;
+  color: var(--deep);
+}
+
+.resource-card__desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.resource-card__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--mist);
+}
+
+.resource-link {
+  font-size: 13px;
+  color: var(--terra);
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.resource-link:hover {
+  color: var(--deep);
+}
+
+/* Official sources */
+.official-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.official-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  text-decoration: none;
+  color: var(--deep);
+  font-size: 13px;
+  font-weight: 500;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.official-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 0 var(--mist);
+  color: var(--terra);
+}
+
+.official-link span:first-child {
+  font-size: 18px;
+}
+
+.official-link__arrow {
+  margin-left: auto;
+  color: var(--subtle);
+  font-size: 12px;
+}
+
+@media (max-width: 1024px) {
+  .resource-tools {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .resource-tools {
+    grid-template-columns: 1fr;
+  }
+}
