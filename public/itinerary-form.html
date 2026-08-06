@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Trip Details — Wandr</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f5f0e8;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(160deg, #0d1b2a 0%, #1a3a5c 100%);
+      color: #fff;
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+    }
+    header .check {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      color: #a8c4d4;
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+    .form-wrap {
+      max-width: 680px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e0d9ce;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: #0d1b2a;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #e0d9ce;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.35rem;
+      margin-top: 1rem;
+    }
+    label:first-of-type { margin-top: 0; }
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid #d0c9be;
+      border-radius: 5px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #1a1a1a;
+      background: #faf8f5;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #0d1b2a;
+    }
+    textarea { resize: vertical; min-height: 90px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+    .hint { font-size: 0.78rem; color: #888; margin-top: 0.25rem; }
+    button[type="submit"] {
+      width: 100%;
+      padding: 1rem;
+      background: #c9a84c;
+      color: #0d1b2a;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: opacity 0.2s;
+      margin-top: 0.5rem;
+    }
+    button[type="submit"]:hover { opacity: 0.88; }
+    button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
+    .fine-print {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 1rem;
+    }
+    .success {
+      display: none;
+      background: #fff;
+      border: 1px solid #c9a84c;
+      border-radius: 10px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+    .success h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #0d1b2a; margin-bottom: 0.75rem; }
+    .success p { color: #555; font-size: 0.95rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="check">✅</div>
+  <h1>Payment confirmed — thank you!</h1>
+  <p>Fill out your trip details below and your itinerary will arrive within 24 hours.</p>
+</header>
+
+<div class="form-wrap">
+
+  <div class="success" id="success">
+    <h2>We've got your trip details! 🌍</h2>
+    <p>Your custom itinerary will be in your inbox within 24 hours.<br/>Check <strong>larielles818@gmail.com</strong> — or whatever email you entered.</p>
+    <p style="margin-top:1rem; color:#888; font-size:0.85rem;">Questions? Email <a href="mailto:larielles818@gmail.com">larielles818@gmail.com</a></p>
+  </div>
+
+  <form id="trip-form">
+
+    <div class="card">
+      <h2>About you</h2>
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" required placeholder="First name is fine" />
+
+      <label for="email">Your email address</label>
+      <input type="email" id="email" name="email" required placeholder="We'll send your itinerary here" />
+    </div>
+
+    <div class="card">
+      <h2>Your trip</h2>
+
+      <label for="destination">Destination</label>
+      <input type="text" id="destination" name="destination" required placeholder="e.g. Bali, Indonesia — or be specific: Ubud + Seminyak" />
+
+      <div class="row2">
+        <div>
+          <label for="start_date">Arrival date</label>
+          <input type="date" id="start_date" name="start_date" required />
+        </div>
+        <div>
+          <label for="end_date">Departure date</label>
+          <input type="date" id="end_date" name="end_date" required />
+        </div>
+      </div>
+
+      <label for="group_size">Number of travelers</label>
+      <input type="number" id="group_size" name="group_size" min="1" max="20" value="2" required />
+
+      <label for="group_type">Who's traveling?</label>
+      <select id="group_type" name="group_type" required>
+        <option value="">— Select —</option>
+        <option>Solo</option>
+        <option>Couple</option>
+        <option>Family with young kids</option>
+        <option>Family with older kids / teens</option>
+        <option>Group of friends</option>
+        <option>Business / bleisure</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h2>Your style &amp; budget</h2>
+
+      <label for="vibe">Travel vibe</label>
+      <select id="vibe" name="vibe" required>
+        <option value="">— Select —</option>
+        <option>Adventure / outdoors</option>
+        <option>Culture / history / museums</option>
+        <option>Food &amp; restaurants</option>
+        <option>Relaxation / beach / spa</option>
+        <option>Nightlife &amp; social</option>
+        <option>Mix of everything</option>
+      </select>
+
+      <label for="pace">Preferred pace</label>
+      <select id="pace" name="pace" required>
+        <option value="">— Select —</option>
+        <option>Packed — I want to see everything</option>
+        <option>Balanced — busy days with downtime</option>
+        <option>Relaxed — quality over quantity</option>
+      </select>
+
+      <label for="budget">Daily budget per person (USD)</label>
+      <select id="budget" name="budget" required>
+        <option value="">— Select —</option>
+        <option>Under $75/day — budget traveler</option>
+        <option>$75–$150/day — mid-range</option>
+        <option>$150–$300/day — comfortable</option>
+        <option>$300+/day — luxury</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h2>Anything else?</h2>
+      <label for="notes">Special requests, dietary needs, must-see places, things to avoid</label>
+      <textarea id="notes" name="notes" placeholder="e.g. We have a 4-year-old so nothing too intense. My partner is vegetarian. We really want to see the temples but skip the tourist traps."></textarea>
+      <p class="hint">Optional but helpful — the more detail, the better the itinerary.</p>
+    </div>
+
+    <button type="submit" id="submit-btn">Send my trip details →</button>
+    <p class="fine-print">Your itinerary arrives within 24 hours to the email above.</p>
+
+  </form>
+</div>
+
+<script>
+  const WEBHOOK_URL = 'https://removable-seventh-duck-reviewer.trycloudflare.com/webhook/itinerary-request';
+
+  document.getElementById('trip-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const data = {};
+    new FormData(this).forEach((v, k) => { data[k] = v; });
+
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      document.getElementById('trip-form').style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Send my trip details →';
+      alert('Something went wrong — please email larielles818@gmail.com with your trip details and we\'ll sort it out.');
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom AI Travel Itinerary — Wandr</title>
+  <meta name="description" content="Tell us where you want to go. We'll build your perfect day-by-day itinerary — restaurants, activities, logistics, all of it — in 24 hours." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0d1b2a;
+      --navy-light: #1a3a5c;
+      --cream: #f5f0e8;
+      --sky: #a8c4d4;
+      --gold: #c9a84c;
+      --text: #1a1a1a;
+      --muted: #555;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: #fff;
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+    }
+    .hero .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--sky); }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--sky);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 1rem 2.5rem;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .hero .price-note {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: rgba(168,196,212,0.7);
+    }
+
+    /* WHAT YOU GET */
+    .section { padding: 4rem 1.5rem; max-width: 860px; margin: 0 auto; }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: var(--navy);
+    }
+    .deliverables {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .deliverable {
+      background: #fff;
+      border: 1px solid #e0d9ce;
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .deliverable .icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .deliverable h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--navy); }
+    .deliverable p { font-size: 0.9rem; color: var(--muted); }
+
+    /* HOW IT WORKS */
+    .how { background: var(--navy); color: #fff; padding: 4rem 1.5rem; }
+    .how-inner { max-width: 700px; margin: 0 auto; }
+    .how h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .steps { list-style: none; counter-reset: steps; }
+    .steps li {
+      counter-increment: steps;
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(steps);
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.15rem;
+    }
+    .steps li strong { display: block; font-size: 1rem; margin-bottom: 0.25rem; }
+    .steps li span { font-size: 0.9rem; color: var(--sky); }
+
+    /* SOCIAL PROOF */
+    .proof { padding: 4rem 1.5rem; max-width: 760px; margin: 0 auto; text-align: center; }
+    .proof blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+    .proof cite { font-size: 0.85rem; color: var(--muted); }
+
+    /* SAMPLE */
+    .sample { background: #fff; border: 1px solid #e0d9ce; border-radius: 8px; padding: 2rem; margin: 0 1.5rem 3rem; max-width: 760px; }
+    .sample-wrap { max-width: 760px; margin: 0 auto 3rem; padding: 0 1.5rem; }
+    .sample h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 1rem; }
+    .sample .day { border-left: 3px solid var(--gold); padding-left: 1rem; margin-bottom: 1rem; }
+    .sample .day strong { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .sample .day p { font-size: 0.9rem; color: var(--text); margin-top: 0.25rem; }
+
+    /* CTA BOTTOM */
+    .cta-bottom {
+      background: var(--cream);
+      border-top: 1px solid #e0d9ce;
+      text-align: center;
+      padding: 4rem 1.5rem;
+    }
+    .cta-bottom h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+    .cta-bottom p { color: var(--muted); margin-bottom: 2rem; font-size: 1rem; }
+    .guarantee {
+      margin-top: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid #e0d9ce;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="eyebrow">Wandr Custom Itinerary</p>
+    <h1>Your next trip, planned by <em>AI</em> — in 24 hours</h1>
+    <p>Tell us where you're going. We'll build a day-by-day itinerary with restaurants, activities, logistics, and local tips — tailored to your travel style.</p>
+    <a href="https://lsercena.gumroad.com/l/rbrpxc" class="btn-primary" id="buy-btn">Get My Custom Itinerary — $47</a>
+    <p class="price-note">Delivered to your inbox within 24 hours &nbsp;·&nbsp; 100% satisfaction or your money back</p>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <div class="section">
+    <h2>What's included</h2>
+    <div class="deliverables">
+      <div class="deliverable">
+        <div class="icon">🗓️</div>
+        <h3>Day-by-day plan</h3>
+        <p>Morning, afternoon, and evening — every day mapped out so you're never guessing what's next.</p>
+      </div>
+      <div class="deliverable">
+        <div class="icon">🍽️</div>
+        <h3>Restaurant picks</h3>
+        <p>Specific restaurants with why they fit your vibe — not just "eat local food."</p>
+      </div>
+      <div class="deliverable">
+        <div class="icon">🚌</div>
+        <h3>Getting around</h3>
+        <p>How to get from A to B — transit, rideshare, rental, or walk. No vague "travel to next destination."</p>
+      </div>
+      <div class="deliverable">
+        <div class="icon">💡</div>
+        <h3>Local tips</h3>
+        <p>What to book in advance, what to skip, what the travel blogs don't tell you.</p>
+      </div>
+      <div class="deliverable">
+        <div class="icon">💰</div>
+        <h3>Budget breakdown</h3>
+        <p>Daily spend estimates calibrated to your budget, not generic ranges.</p>
+      </div>
+      <div class="deliverable">
+        <div class="icon">📧</div>
+        <h3>Email delivery</h3>
+        <p>Delivered as a formatted document you can forward, print, or share with your travel group.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAMPLE -->
+  <div class="sample-wrap">
+    <div class="sample">
+      <h3>Sample excerpt — 7 Days in Bali</h3>
+      <div class="day">
+        <strong>Day 1 — Arrival &amp; Ubud</strong>
+        <p>Land at Ngurah Rai, grab a Blue Bird taxi (~$12) to Ubud. Check in, decompress. Evening: walk the main market, dinner at Locavore Next Door — book this one in advance.</p>
+      </div>
+      <div class="day">
+        <strong>Day 2 — Temples &amp; Rice Terraces</strong>
+        <p>Sunrise at Tegalalang Rice Terraces before the crowds hit (6:30 AM). Tirta Empul temple by 9. Afternoon cooking class at Paon Bali — $35pp, worth every cent.</p>
+      </div>
+      <div class="day">
+        <strong>Day 3 — Mount Batur Trek</strong>
+        <p>2 AM pickup for the sunrise summit hike. Back by noon. Afternoon: Tukad Cepung waterfall. Early dinner and early bed — you earned it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="how-inner">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>
+          <div></div>
+          <div>
+            <strong>Pay &amp; fill out your trip details</strong>
+            <span>Destination, dates, group size, travel style, budget. Takes 3 minutes.</span>
+          </div>
+        </li>
+        <li>
+          <div></div>
+          <div>
+            <strong>We build your itinerary</strong>
+            <span>Our AI synthesizes your preferences with current local knowledge. You'll have it within 24 hours.</span>
+          </div>
+        </li>
+        <li>
+          <div></div>
+          <div>
+            <strong>It lands in your inbox</strong>
+            <span>A complete, formatted itinerary — ready to share with travel companions or load into your phone.</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <div class="proof">
+    <blockquote>"We used this for our Lisbon trip and it saved us hours of research. Every restaurant recommendation was spot-on."</blockquote>
+    <cite>— Early tester, Lisbon Bleisure Trip</cite>
+  </div>
+
+  <!-- CTA BOTTOM -->
+  <section class="cta-bottom">
+    <h2>Ready to stop planning and start packing?</h2>
+    <p>$47 for a fully custom itinerary. Delivered in 24 hours.</p>
+    <a href="https://lsercena.gumroad.com/l/rbrpxc" class="btn-primary" id="buy-btn-2">Get My Custom Itinerary — $47</a>
+    <p class="guarantee">Not happy? Email us and we'll refund you. No questions.</p>
+  </section>
+
+  <footer>
+    &copy; 2026 Wandr &nbsp;·&nbsp; <a href="mailto:larielles818@gmail.com" style="color:inherit;">larielles818@gmail.com</a>
+  </footer>
+
+</body>
+</html>
