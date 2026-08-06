@@ -18,6 +18,7 @@ const LoginPage = lazy(() => import('@/pages/LoginPage'));
 const AdminPage = lazy(() => import('@/pages/AdminPage'));
 const SeoPage = lazy(() => import('@/pages/SeoPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const ItineraryFormPage = lazy(() => import('@/pages/ItineraryFormPage'));
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/seo/:slug" element={<SeoPage />} />
+          <Route path="/itinerary-form" element={<ItineraryFormPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
