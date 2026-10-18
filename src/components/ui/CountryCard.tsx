@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { Country } from '@/types';
 import ScoreBar from './ScoreBar';
+import { handleImageError } from '@/utils/imageFallback';
 import './CountryCard.css';
 
 interface CountryCardProps {
@@ -19,6 +20,7 @@ export default function CountryCard({ country, showScores = false }: CountryCard
           loading="lazy"
           width={400}
           height={260}
+          onError={handleImageError}
         />
         <span className="country-card__flag" aria-hidden="true">{country.overview.flag}</span>
       </div>

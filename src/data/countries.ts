@@ -86,7 +86,7 @@ const baseCountry = (overrides: Partial<Country> & Pick<Country, 'id' | 'slug' |
 export const countries: Country[] = [
   baseCountry({
     id: 'jp', slug: 'japan', name: 'Japan', tagline: 'Ancient tradition meets cutting-edge innovation',
-    image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: 36.2048, lng: 138.2529 },
     seoKeywords: ['digital nomad japan', 'japan visa', 'living in tokyo'],
     overview: {
@@ -156,7 +156,7 @@ export const countries: Country[] = [
 
   baseCountry({
     id: 'pt', slug: 'portugal', name: 'Portugal', tagline: 'Europe\'s most welcoming digital nomad hub',
-    image: 'https://images.unsplash.com/photo-1555881400-74d7aca8a582?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1585208798174-6cedd86e019a?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: 39.3999, lng: -8.2245 },
     seoKeywords: ['portugal digital nomad visa', 'd7 visa portugal', 'living in lisbon'],
     overview: {
@@ -227,7 +227,7 @@ export const countries: Country[] = [
 
   baseCountry({
     id: 'th', slug: 'thailand', name: 'Thailand', tagline: 'Tropical paradise with world-class infrastructure',
-    image: 'https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: 15.87, lng: 100.9925 },
     seoKeywords: ['thailand digital nomad', 'thailand elite visa', 'living in bangkok'],
     overview: {
@@ -298,7 +298,7 @@ export const countries: Country[] = [
 
   baseCountry({
     id: 'ar', slug: 'argentina', name: 'Argentina', tagline: 'Stunning landscapes at unbeatable value',
-    image: 'https://images.unsplash.com/photo-1589909202802-8f4a7082d0d7?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1725499267114-15531716d101?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: -38.4161, lng: -63.6167 },
     seoKeywords: ['argentina digital nomad', 'living in buenos aires', 'argentina visa'],
     overview: {
@@ -357,7 +357,7 @@ export const countries: Country[] = [
 
   baseCountry({
     id: 'mx', slug: 'mexico', name: 'Mexico', tagline: 'Vibrant culture, incredible food, affordable living',
-    image: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: 23.6345, lng: -102.5528 },
     seoKeywords: ['mexico digital nomad', 'temporary resident visa mexico', 'living in mexico city'],
     overview: {
@@ -403,7 +403,7 @@ export const countries: Country[] = [
 
   baseCountry({
     id: 'co', slug: 'colombia', name: 'Colombia', tagline: 'Emerging nomad destination with incredible value',
-    image: 'https://images.unsplash.com/photo-1568638809776-6c0a0c4b1a07?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1536308037887-165852797016?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: 4.5709, lng: -74.2973 },
     seoKeywords: ['colombia digital nomad visa', 'living in medellin', 'colombia visa'],
     overview: {
@@ -449,7 +449,7 @@ export const countries: Country[] = [
 
   baseCountry({
     id: 'ge', slug: 'georgia', name: 'Georgia', tagline: 'Visa-free paradise for remote workers',
-    image: 'https://images.unsplash.com/photo-1565008447749-007ba833fb93?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1559787248-5beaa0e086bc?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: 42.3154, lng: 43.3569 },
     seoKeywords: ['georgia digital nomad', 'remotely from georgia', 'living in tbilisi'],
     overview: {
@@ -498,7 +498,7 @@ export const countries: Country[] = [
 
   baseCountry({
     id: 'cr', slug: 'costa-rica', name: 'Costa Rica', tagline: 'Pura vida — nature, stability, and sunshine',
-    image: 'https://images.unsplash.com/photo-1542403676-9b0e4c0b0b0b?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1580094333632-438bdc04f79f?auto=format&fit=crop&w=800&q=80',
     mapCoordinates: { lat: 9.7489, lng: -83.7534 },
     seoKeywords: ['costa rica digital nomad', 'living in costa rica', 'costa rica visa'],
     overview: {
@@ -575,7 +575,7 @@ export function getCountriesByFilter(key: string, value?: string): Country[] {
 
 export const travelGuides = [
   { id: '1', slug: 'first-time-digital-nomad', title: 'The Complete First-Timer\'s Guide to Digital Nomad Life', excerpt: 'Everything you need to know before packing your laptop and hitting the road.', content: '', countrySlug: undefined, category: 'Getting Started', publishedAt: '2026-01-15', author: 'Wandr Team', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80' },
-  { id: '2', slug: 'portugal-d8-visa-guide', title: 'Portugal D8 Digital Nomad Visa: Step-by-Step Application', excerpt: 'A detailed walkthrough of the D8 visa application process.', content: '', countrySlug: 'portugal', category: 'Visa Guides', publishedAt: '2026-02-01', author: 'Wandr Team', image: 'https://images.unsplash.com/photo-1555881400-74d7aca8a582?w=600&q=80' },
+  { id: '2', slug: 'portugal-d8-visa-guide', title: 'Portugal D8 Digital Nomad Visa: Step-by-Step Application', excerpt: 'A detailed walkthrough of the D8 visa application process.', content: '', countrySlug: 'portugal', category: 'Visa Guides', publishedAt: '2026-02-01', author: 'Wandr Team', image: 'https://images.unsplash.com/photo-1585208798174-6cedd86e019a?auto=format&fit=crop&w=600&q=80' },
   { id: '3', slug: 'tax-residency-explained', title: 'Tax Residency for Digital Nomads: What You Need to Know', excerpt: 'Understanding the 183-day rule, double taxation treaties, and how to stay compliant.', content: '', countrySlug: undefined, category: 'Tax', publishedAt: '2026-01-20', author: 'Wandr Team', image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80' },
   { id: '4', slug: 'thailand-ltr-visa', title: 'Thailand LTR Visa: Is It Worth the $1,400 Fee?', excerpt: 'An honest breakdown of Thailand\'s Long-Term Resident visa for remote workers.', content: '', countrySlug: 'thailand', category: 'Visa Guides', publishedAt: '2026-01-10', author: 'Wandr Team', image: 'https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=600&q=80' },
 ];

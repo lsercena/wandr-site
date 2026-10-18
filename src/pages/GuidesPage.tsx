@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SeoHead from '@/components/ui/SeoHead';
 import { guideService } from '@/services/countryService';
 import NewsletterForm from '@/components/ui/NewsletterForm';
+import { handleImageError } from '@/utils/imageFallback';
 import type { TravelGuide } from '@/types';
 import './GuidesPage.css';
 
@@ -22,6 +23,7 @@ function GuideCard({ guide, large }: { guide: TravelGuide; large?: boolean }) {
         loading="lazy"
         width={large ? 800 : 400}
         height={large ? 480 : 240}
+        onError={handleImageError}
       />
       <div className="guide-card__body">
         <span className="badge badge-terra">{guide.category}</span>

@@ -36,7 +36,12 @@ export default function CountryPage() {
         image={c.image}
       />
 
-      <div className="country-hero" style={{ backgroundImage: `url(${c.image})` }}>
+      <div
+        className="country-hero"
+        style={{
+          backgroundImage: `url(${c.image}), linear-gradient(135deg, #F5EFE0 0%, #E8DCC4 55%, #D9C9A8 100%)`,
+        }}
+      >
         <div className="country-hero__overlay">
           <div className="container">
             <span className="country-hero__flag">{c.overview.flag}</span>

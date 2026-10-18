@@ -4,6 +4,7 @@ import SeoHead from '@/components/ui/SeoHead';
 import CountryCard from '@/components/ui/CountryCard';
 import NewsletterForm from '@/components/ui/NewsletterForm';
 import { countryService, guideService } from '@/services/countryService';
+import { handleImageError } from '@/utils/imageFallback';
 import { testimonials } from '@/data/countries';
 import WorldMap from '@/components/map/WorldMap';
 import './HomePage.css';
@@ -120,7 +121,7 @@ export default function HomePage() {
           <div className="grid-3">
             {guideService.getFeatured().map((guide) => (
               <Link key={guide.id} to="/guides" className="guide-card card">
-                <img src={guide.image} alt="" className="guide-card__img" loading="lazy" />
+                <img src={guide.image} alt="" className="guide-card__img" loading="lazy" onError={handleImageError} />
                 <div className="guide-card__body">
                   <span className="badge badge-terra">{guide.category}</span>
                   <h3 className="guide-card__title">{guide.title}</h3>
