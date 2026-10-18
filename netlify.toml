@@ -11,6 +11,11 @@
   to = "/.netlify/functions/claude"
   status = 200
 
+[[redirects]]
+  from = "/api/submit-itinerary"
+  to = "/.netlify/functions/submit-itinerary"
+  status = 200
+
 # SPA fallback — all routes serve index.html
 [[redirects]]
   from = "/*"

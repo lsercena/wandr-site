@@ -5,33 +5,74 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F5EFE0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=optional"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=optional"
-        rel="stylesheet"
-      />
-    </noscript>
-    <style>
-      /* Prevent font-swap reflow on LCP element — use fallback if font not cached */
-      @font-face { font-family: 'Playfair Display'; font-display: optional; }
-      @font-face { font-family: 'DM Sans'; font-display: optional; }
-    </style>
     <title>Wandr — AI Travel Intelligence Platform</title>
     <meta
       name="description"
       content="Can you legally go there? What visa do you qualify for? Can you afford to live there? Wandr is your AI-powered travel intelligence platform."
     />
+
+    <!-- Fonts: preconnect + single stylesheet with display=swap.
+         Variable-font axes served by Google Fonts; swap avoids render-blocking
+         while preconnect removes the DNS/TLS handshake from the critical path. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wandr" />
+    <meta property="og:title" content="Wandr — AI Travel Intelligence Platform" />
+    <meta
+      property="og:description"
+      content="Can you legally go there? What visa do you qualify for? Can you afford to live there? Wandr is your AI-powered travel intelligence platform."
+    />
+    <meta property="og:url" content="https://wandrtravel-app.netlify.app/" />
+    <meta property="og:image" content="https://wandrtravel-app.netlify.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Wandr — AI Travel Intelligence Platform" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wandr — AI Travel Intelligence Platform" />
+    <meta
+      name="twitter:description"
+      content="Can you legally go there? What visa do you qualify for? Can you afford to live there? Wandr is your AI-powered travel intelligence platform."
+    />
+    <meta name="twitter:image" content="https://wandrtravel-app.netlify.app/og-image.png" />
+    <meta name="twitter:image:alt" content="Wandr — AI Travel Intelligence Platform" />
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Cold-load fallback shown until React mounts (React clears #root on first render). -->
+    <div id="root">
+      <div
+        id="app-loader"
+        role="status"
+        aria-live="polite"
+        style="position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.9rem; background: #F5EFE0; color: #0d1b2a;"
+      >
+        <span
+          aria-hidden="true"
+          style="width: 2.25rem; height: 2.25rem; border: 3px solid rgba(13, 27, 42, 0.12); border-top-color: #C4622D; border-radius: 50%; animation: wandr-spin 0.8s linear infinite;"
+        ></span>
+        <span style="font-family: Georgia, 'Times New Roman', serif; font-size: 1.35rem; letter-spacing: 0.02em;">Wandr</span>
+        <span style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #6b6357;">Preparing your journey…</span>
+      </div>
+      <style>
+        @keyframes wandr-spin {
+          to { transform: rotate(360deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          #app-loader [aria-hidden="true"] {
+            animation: none;
+            border-top-color: #C4622D;
+          }
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

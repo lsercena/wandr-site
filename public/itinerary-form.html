@@ -226,7 +226,8 @@
 </div>
 
 <script>
-  const WEBHOOK_URL = 'https://removable-seventh-duck-reviewer.trycloudflare.com/webhook/itinerary-request';
+  // Proxy through a Netlify Function so the upstream webhook URL stays server-side.
+  const WEBHOOK_URL = '/api/submit-itinerary';
 
   document.getElementById('trip-form').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -238,11 +239,12 @@
     new FormData(this).forEach((v, k) => { data[k] = v; });
 
     try {
-      await fetch(WEBHOOK_URL, {
+      const res = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+      if (!res.ok) throw new Error(`Submission failed (${res.status})`);
       document.getElementById('trip-form').style.display = 'none';
       document.getElementById('success').style.display = 'block';
     } catch (err) {

@@ -1,6 +1,8 @@
 import { useState, FormEvent } from 'react';
 
-const WEBHOOK_URL = 'https://removable-seventh-duck-reviewer.trycloudflare.com/webhook/itinerary-request';
+// Proxy through a Netlify Function so the upstream webhook URL stays
+// server-side (set ITINERARY_WEBHOOK_URL in Netlify env settings).
+const WEBHOOK_URL = '/api/submit-itinerary';
 
 export default function ItineraryFormPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -12,11 +14,12 @@ export default function ItineraryFormPage() {
     const data: Record<string, string> = {};
     new FormData(e.currentTarget).forEach((v, k) => { data[k] = v as string; });
     try {
-      await fetch(WEBHOOK_URL, {
+      const res = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+      if (!res.ok) throw new Error(`Submission failed (${res.status})`);
       setSubmitted(true);
     } catch {
       alert('Something went wrong — please email larielles818@gmail.com with your trip details.');
