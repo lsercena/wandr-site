@@ -1,0 +1,48 @@
+.itinerary-map {
+  width: 100%;
+  border: 1px solid var(--mist, #E8E0D0);
+  border-radius: var(--radius-lg, 8px);
+  overflow: hidden;
+  background: var(--mist, #E8E0D0);
+  z-index: 0;
+}
+
+.itinerary-map--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  color: var(--muted, #6B5E4E);
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* Numbered waypoint markers (brand colors, no image assets needed) */
+.itinerary-waypoint span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--terra, #9E4A1E);
+  color: #fff;
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.itinerary-map .leaflet-popup-content-wrapper,
+.itinerary-map .leaflet-popup-tip {
+  background: var(--sand, #F5EFE0);
+  color: var(--ink, #1A1410);
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+}
+
+.itinerary-map .leaflet-control-attribution {
+  font-size: 10px;
+  background: rgba(245, 239, 224, 0.85);
+}

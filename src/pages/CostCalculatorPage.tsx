@@ -2,6 +2,12 @@ import { useState } from 'react';
 import SeoHead from '@/components/ui/SeoHead';
 import { calculateCost } from '@/services/costService';
 import { countryService } from '@/services/countryService';
+import {
+  SUPPORTED_CURRENCIES,
+  convertCurrency,
+  formatMoney,
+} from '@/services/exchangeRateService';
+import { useExchangeRates } from '@/hooks/useExchangeRates';
 import type { CostCalculatorInput, CostBreakdown, TravelStyle, HousingType } from '@/types';
 import './CostCalculatorPage.css';
 
@@ -37,11 +43,14 @@ const defaultInput: CostCalculatorInput = {
 function CostBar({
   label,
   value,
+  valueLabel,
   total,
   color,
 }: {
   label: string;
   value: number;
+  /** Pre-formatted, currency-converted label (falls back to $X). */
+  valueLabel?: string;
   total: number;
   color: string;
 }) {
@@ -50,7 +59,7 @@ function CostBar({
     <div className="cost-bar">
       <div className="cost-bar__meta">
         <span className="cost-bar__label">{label}</span>
-        <span className="cost-bar__value">${value.toLocaleString()}</span>
+        <span className="cost-bar__value">{valueLabel ?? `$${value.toLocaleString()}`}</span>
         <span className="cost-bar__pct">{pct}%</span>
       </div>
       <div className="cost-bar__track">
@@ -72,10 +81,20 @@ export default function CostCalculatorPage() {
   const [input, setInput] = useState<CostCalculatorInput>(defaultInput);
   const [result, setResult] = useState<CostBreakdown | null>(null);
   const [calculated, setCalculated] = useState(false);
+  const [currency, setCurrency] = useState('USD');
+  const { table } = useExchangeRates();
 
   const countries = countryService.getAll();
   const update = (partial: Partial<CostCalculatorInput>) =>
     setInput((prev) => ({ ...prev, ...partial }));
+
+  /** Formats a USD figure in the user's display currency (live rates). */
+  const money = (usd: number): string => {
+    if (table && currency !== 'USD') {
+      return formatMoney(convertCurrency(usd, 'USD', currency, table), currency);
+    }
+    return `$${Math.round(usd).toLocaleString()}`;
+  };
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -211,6 +230,21 @@ export default function CostCalculatorPage() {
                 </div>
               ) : result ? (
                 <div className="fade-in">
+                  {/* Display currency (live conversion) */}
+                  <div className="calc-currency">
+                    <label htmlFor="display-currency" className="form-label">Display currency (live rates)</label>
+                    <select
+                      id="display-currency"
+                      className="form-select"
+                      value={currency}
+                      onChange={(e) => setCurrency(e.target.value)}
+                    >
+                      {SUPPORTED_CURRENCIES.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                  </div>
+
                   {/* Affordability banner */}
                   <div className={`calc-banner ${result.affordable ? 'calc-banner--good' : 'calc-banner--warn'}`}>
                     <span className="calc-banner__icon">{result.affordable ? '✓' : '⚠'}</span>
@@ -218,8 +252,8 @@ export default function CostCalculatorPage() {
                       <strong>{result.affordable ? 'Budget Friendly' : 'Income Shortfall'}</strong>
                       <p>
                         {result.affordable
-                          ? `Your $${input.income.toLocaleString()} income covers this budget with ${Math.round(((input.income - result.recommendedIncome) / input.income) * 100)}% remaining.`
-                          : `You need $${(result.recommendedIncome - input.income).toLocaleString()} more/month to live comfortably here.`}
+                          ? `Your ${money(input.income)} income covers this budget with ${Math.round(((input.income - result.recommendedIncome) / input.income) * 100)}% remaining.`
+                          : `You need ${money(result.recommendedIncome - input.income)} more/month to live comfortably here.`}
                       </p>
                     </div>
                   </div>
@@ -228,16 +262,16 @@ export default function CostCalculatorPage() {
                   <div className="calc-totals">
                     <div className="calc-total-card">
                       <span>Monthly Total</span>
-                      <strong>${result.total.toLocaleString()}</strong>
+                      <strong>{money(result.total)}</strong>
                     </div>
                     <div className="calc-total-card calc-total-card--recommended">
                       <span>Recommended Income</span>
-                      <strong>${result.recommendedIncome.toLocaleString()}</strong>
+                      <strong>{money(result.recommendedIncome)}</strong>
                     </div>
                     {input.lengthOfStay > 1 && (
                       <div className="calc-total-card">
                         <span>{input.lengthOfStay}-Month Total</span>
-                        <strong>${(result.total * input.lengthOfStay).toLocaleString()}</strong>
+                        <strong>{money(result.total * input.lengthOfStay)}</strong>
                       </div>
                     )}
                   </div>
@@ -250,6 +284,7 @@ export default function CostCalculatorPage() {
                         key={cat.key}
                         label={cat.label}
                         value={result[cat.key] as number}
+                        valueLabel={money(result[cat.key] as number)}
                         total={totalForBars || result.total}
                         color={cat.color}
                       />

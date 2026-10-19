@@ -1,0 +1,49 @@
+.pwa-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: min(92vw, 520px);
+  padding: 12px 18px;
+  background: var(--deep, #2C2016);
+  color: var(--sand, #F5EFE0);
+  border: 1px solid rgba(245, 239, 224, 0.25);
+  border-radius: var(--radius-lg, 8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  font-size: 14px;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+}
+
+.pwa-toast--offline {
+  background: var(--terra, #9E4A1E);
+}
+
+.pwa-toast--ready {
+  background: var(--success, #2D6A4F);
+}
+
+.pwa-toast__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pwa-toast .btn {
+  padding: 8px 16px;
+  font-size: 11px;
+}
+
+.pwa-toast .btn-ghost {
+  color: rgba(245, 239, 224, 0.85);
+}
+
+.pwa-toast .btn-ghost:hover {
+  background: rgba(245, 239, 224, 0.12);
+}

@@ -1,5 +1,6 @@
 /itinerary-offer.html  /itinerary-offer.html  200
 /itinerary-form.html   /itinerary-form.html   200
 /api/claude  /.netlify/functions/claude  200
+/api/claude/stream  /.netlify/functions/ai-stream  200
 /api/submit-itinerary  /.netlify/functions/submit-itinerary  200
 /*  /index.html  200

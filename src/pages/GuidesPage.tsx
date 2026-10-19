@@ -4,40 +4,63 @@ import SeoHead from '@/components/ui/SeoHead';
 import { guideService } from '@/services/countryService';
 import NewsletterForm from '@/components/ui/NewsletterForm';
 import { handleImageError } from '@/utils/imageFallback';
+import { useAuth } from '@/context/AuthContext';
+import { useLibrary } from '@/context/LibraryContext';
 import type { TravelGuide } from '@/types';
 import './GuidesPage.css';
 
 const CATEGORIES = ['All', 'Visas', 'Nomad Life', 'Tax', 'Housing', 'Budgeting', 'Safety'];
 
 function GuideCard({ guide, large }: { guide: TravelGuide; large?: boolean }) {
+  const { user } = useAuth();
+  const { isGuideSaved, toggleGuide } = useLibrary();
+  const saved = isGuideSaved(guide.slug);
+
   return (
-    <Link
-      to={`/guides`}
-      className={`card guide-card${large ? ' guide-card--large' : ''}`}
-      aria-label={guide.title}
-    >
-      <img
-        src={guide.image}
-        alt=""
-        className="guide-card__img"
-        loading="lazy"
-        width={large ? 800 : 400}
-        height={large ? 480 : 240}
-        onError={handleImageError}
-      />
-      <div className="guide-card__body">
-        <span className="badge badge-terra">{guide.category}</span>
-        <h2 className={`guide-card__title${large ? ' guide-card__title--lg' : ''}`}>{guide.title}</h2>
-        <p className="guide-card__excerpt">{guide.excerpt}</p>
-        {large && (
-          <div className="guide-card__meta">
-            <span>{guide.author}</span>
-            <span>·</span>
-            <time dateTime={guide.publishedAt}>{new Date(guide.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
-          </div>
-        )}
-      </div>
-    </Link>
+    <article className={`card guide-card${large ? ' guide-card--large' : ''}`}>
+      {user ? (
+        <button
+          type="button"
+          className={`guide-save${saved ? ' guide-save--saved' : ''}`}
+          aria-pressed={saved}
+          aria-label={saved ? `Remove ${guide.title} from saved guides` : `Save ${guide.title} to dashboard`}
+          onClick={() => toggleGuide(guide.slug)}
+        >
+          {saved ? '✓ Saved' : '♡ Save'}
+        </button>
+      ) : (
+        <Link to="/login?next=/guides" className="guide-save" aria-label="Sign in to save this guide">
+          ♡ Save
+        </Link>
+      )}
+      <Link
+        to={`/guides`}
+        className="guide-card__link"
+        aria-label={guide.title}
+      >
+        <img
+          src={guide.image}
+          alt=""
+          className="guide-card__img"
+          loading="lazy"
+          width={large ? 800 : 400}
+          height={large ? 480 : 240}
+          onError={handleImageError}
+        />
+        <div className="guide-card__body">
+          <span className="badge badge-terra">{guide.category}</span>
+          <h2 className={`guide-card__title${large ? ' guide-card__title--lg' : ''}`}>{guide.title}</h2>
+          <p className="guide-card__excerpt">{guide.excerpt}</p>
+          {large && (
+            <div className="guide-card__meta">
+              <span>{guide.author}</span>
+              <span>·</span>
+              <time dateTime={guide.publishedAt}>{new Date(guide.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+            </div>
+          )}
+        </div>
+      </Link>
+    </article>
   );
 }
 

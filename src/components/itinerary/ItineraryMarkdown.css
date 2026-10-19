@@ -1,0 +1,48 @@
+/* Shared itinerary typography — used by the planner, share pages, dashboards. */
+.itinerary-display {
+  line-height: 1.7;
+}
+
+.itinerary-h2 {
+  font-size: 24px;
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--mist, #E8E0D0);
+}
+
+.itinerary-h3 {
+  font-size: 19px;
+  margin: 28px 0 12px;
+  color: var(--terra, #9E4A1E);
+}
+
+.itinerary-h4 {
+  font-size: 14px;
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted, #6B5E4E);
+  margin: 16px 0 6px;
+}
+
+.itinerary-p {
+  font-size: 14px;
+  color: var(--deep, #2C2016);
+  margin: 6px 0;
+}
+
+.itinerary-li {
+  font-size: 14px;
+  color: var(--muted, #6B5E4E);
+  margin: 4px 0 4px 20px;
+  list-style: disc;
+}
+
+.itinerary-strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--deep, #2C2016);
+  margin: 12px 0 4px;
+}

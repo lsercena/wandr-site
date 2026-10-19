@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/AuthContext';
 import './Navbar.css';
 
 const NAV_LINKS = [
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     setOpen(false);
@@ -46,7 +48,28 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link to="/login" className="navbar__login btn btn-primary">Login</Link>
+          {user ? (
+            <>
+              <Link
+                to="/dashboard"
+                className={`navbar__link navbar__user ${location.pathname === '/dashboard' ? 'navbar__link--active' : ''}`}
+              >
+                <span className="navbar__avatar" aria-hidden="true">
+                  {(user.name || user.email).charAt(0).toUpperCase()}
+                </span>
+                Dashboard
+              </Link>
+              <button
+                type="button"
+                className="navbar__login btn btn-ghost"
+                onClick={() => void signOut()}
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="navbar__login btn btn-primary">Login</Link>
+          )}
         </div>
 
         <button

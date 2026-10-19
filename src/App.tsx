@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import PageLoader from '@/components/ui/PageLoader';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const ExplorePage = lazy(() => import('@/pages/ExplorePage'));
@@ -19,6 +20,10 @@ const AdminPage = lazy(() => import('@/pages/AdminPage'));
 const SeoPage = lazy(() => import('@/pages/SeoPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 const ItineraryFormPage = lazy(() => import('@/pages/ItineraryFormPage'));
+const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
+const ShareItineraryPage = lazy(() => import('@/pages/ShareItineraryPage'));
+const SchengenPage = lazy(() => import('@/pages/SchengenPage'));
+const TaxTrackerPage = lazy(() => import('@/pages/TaxTrackerPage'));
 
 export default function App() {
   return (
@@ -37,6 +42,18 @@ export default function App() {
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/assistant" element={<AssistantPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<LoginPage initialMode="signup" />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/itinerary/share/:id" element={<ShareItineraryPage />} />
+          <Route path="/schengen-tracker" element={<SchengenPage />} />
+          <Route path="/tax-tracker" element={<TaxTrackerPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/seo/:slug" element={<SeoPage />} />
           <Route path="/itinerary-form" element={<ItineraryFormPage />} />

@@ -1,16 +1,43 @@
 import { useParams, Link } from 'react-router-dom';
 import SeoHead from '@/components/ui/SeoHead';
 import ScoreBar from '@/components/ui/ScoreBar';
+import CurrencyConverter from '@/components/tools/CurrencyConverter';
+import AffiliatePanel from '@/components/monetization/AffiliatePanel';
 import { countryService } from '@/services/countryService';
+import { useAuth } from '@/context/AuthContext';
+import { useLibrary } from '@/context/LibraryContext';
 import NotFoundPage from './NotFoundPage';
 import './CountryPage.css';
 
+/** Log-scale internet speed rating (Mbps → 0-100% gauge). */
+function SpeedGauge({ label, mbps }: { label: string; mbps: number }) {
+  const pct = Math.min(100, Math.round((Math.log10(mbps + 1) / Math.log10(1001)) * 100));
+  const rating = mbps >= 200 ? 'Excellent' : mbps >= 100 ? 'Great' : mbps >= 50 ? 'Good' : 'Basic';
+  return (
+    <div className="score-bar">
+      <span className="score-bar-label" style={{ minWidth: 76, textAlign: 'left' }}>{label}</span>
+      <div className="score-bar-track">
+        <div
+          className="score-bar-fill"
+          style={{ width: `${pct}%`, background: mbps >= 100 ? 'var(--success)' : mbps >= 50 ? 'var(--gold)' : 'var(--terra)' }}
+        />
+      </div>
+      <span className="score-bar-label" style={{ minWidth: 96 }}>
+        {mbps} Mbps · {rating}
+      </span>
+    </div>
+  );
+}
+
 export default function CountryPage() {
   const { slug } = useParams<{ slug: string }>();
+  const { user } = useAuth();
+  const { isCountrySaved, toggleCountry } = useLibrary();
   const country = slug ? countryService.getBySlug(slug) : undefined;
   if (!country) return <NotFoundPage />;
 
   const c = country;
+  const saved = isCountrySaved(c.slug);
   const sections = [
     { id: 'overview', label: 'Overview' },
     { id: 'visa', label: 'Visa' },
@@ -51,6 +78,20 @@ export default function CountryPage() {
               {c.visa.visaFree && <span className="badge badge-green">Visa-Free</span>}
               {c.digitalNomadVisa.available && <span className="badge badge-terra">Nomad Visa</span>}
               <span className="badge badge-gold">From ${c.costOfLiving.monthlyBudget.budget}/mo</span>
+              {user ? (
+                <button
+                  type="button"
+                  className={`btn btn-secondary country-save-btn ${saved ? 'country-save-btn--saved' : ''}`}
+                  onClick={() => toggleCountry(c.slug)}
+                  aria-pressed={saved}
+                >
+                  {saved ? '✓ Saved to dashboard' : '♡ Save to dashboard'}
+                </button>
+              ) : (
+                <Link to={`/login?next=/countries/${c.slug}`} className="btn btn-secondary country-save-btn">
+                  ♡ Save to dashboard
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -157,6 +198,51 @@ export default function CountryPage() {
               <InfoItem label="VPN Restrictions" value={c.remoteWork.vpnRestrictions ? 'Yes' : 'No'} />
               <InfoItem label="SIM Providers" value={c.remoteWork.simProviders.join(', ')} />
               <InfoItem label="eSIM Providers" value={c.remoteWork.esimProviders.join(', ')} />
+            </div>
+
+            {/* Infrastructure metrics */}
+            <div className="infra-metrics">
+              <div className="infra-block">
+                <h3>Internet benchmarks</h3>
+                <SpeedGauge label="Download" mbps={c.remoteWork.internetSpeed.download} />
+                <SpeedGauge label="Upload" mbps={c.remoteWork.internetSpeed.upload} />
+                <p className="infra-note">
+                  Nomad baseline is ~30 Mbps down / 10 Mbps up for smooth video calls over VPN.
+                  Fiber availability here: {c.remoteWork.fiberAvailability}% · 5G coverage: {c.remoteWork.coverage5G}%
+                </p>
+              </div>
+
+              <div className="infra-block">
+                <h3>Coworking picks</h3>
+                {c.remoteWork.coworking && c.remoteWork.coworking.length > 0 ? (
+                  <div className="coworking-grid">
+                    {c.remoteWork.coworking.map((space) => (
+                      <div key={space.name} className="coworking-card">
+                        <div className="coworking-card__head">
+                          <strong>{space.name}</strong>
+                          <span>{space.city}</span>
+                        </div>
+                        <div className="coworking-card__tags">
+                          {space.tags.map((t) => (
+                            <span key={t} className="badge badge-gold">{t}</span>
+                          ))}
+                        </div>
+                        <p className="coworking-card__price">
+                          {space.dayPassUsd ? `Day pass ~$${space.dayPassUsd}` : ''}
+                          {space.monthlyUsd ? ` · Hot desk ~$${space.monthlyUsd}/mo` : ''}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="infra-note">
+                    {c.remoteWork.coworkingSpaces}+ coworking spaces nationwide — no curated picks yet.
+                  </p>
+                )}
+                <p className="infra-note">
+                  Community picks with indicative pricing — confirm rates with the venue before visiting.
+                </p>
+              </div>
             </div>
           </section>
 
@@ -309,6 +395,14 @@ export default function CountryPage() {
           {/* Cost of Living */}
           <section id="cost" className="country-section">
             <h2>Cost of Living</h2>
+            <CurrencyConverter
+              defaultAmount={c.costOfLiving.monthlyBudget.mid}
+              defaultFrom="USD"
+              defaultTo={(() => {
+                const code = c.overview.currency.slice(0, 3).toUpperCase();
+                return /^[A-Z]{3}$/.test(code) ? code : 'EUR';
+              })()}
+            />
             <div className="cost-cards">
               <div className="cost-card card">
                 <span className="cost-card__label">Budget</span>
@@ -334,6 +428,8 @@ export default function CountryPage() {
               <ScoreBar label="Entertainment" value={c.costOfLiving.entertainment} max={500} />
             </div>
           </section>
+
+          <AffiliatePanel destination={`${c.name}`} variant="country" />
 
           <div className="country-cta">
             <Link to="/visa-finder" className="btn btn-primary">Find My Visa</Link>

@@ -1,0 +1,138 @@
+.schengen {
+  padding: 26px 28px;
+}
+
+.schengen__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.schengen__title { font-size: 24px; }
+
+.schengen__badge {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.schengen__badge--ok { background: rgba(45, 106, 79, 0.12); color: var(--success, #2D6A4F); }
+.schengen__badge--caution { background: rgba(212, 168, 83, 0.18); color: var(--deep, #2C2016); }
+.schengen__badge--warn { background: rgba(196, 98, 45, 0.14); color: var(--terra, #9E4A1E); }
+.schengen__badge--full { background: rgba(139, 58, 30, 0.14); color: var(--error, #8B3A1E); }
+
+.schengen__gauge {
+  height: 12px;
+  border-radius: 6px;
+  background: var(--mist, #E8E0D0);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.schengen__gauge-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+.schengen__gauge-fill--ok { background: var(--success, #2D6A4F); }
+.schengen__gauge-fill--caution { background: var(--gold, #D4A853); }
+.schengen__gauge-fill--warn { background: var(--terra, #9E4A1E); }
+.schengen__gauge-fill--full { background: var(--error, #8B3A1E); }
+
+.schengen__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.schengen__stat span {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terra, #9E4A1E);
+  margin-bottom: 4px;
+}
+
+.schengen__stat strong {
+  font-size: 15px;
+  color: var(--deep, #2C2016);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.schengen__form {
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.schengen__field {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.schengen__form .btn { padding: 12px 22px; }
+
+.schengen__error {
+  color: var(--error, #8B3A1E);
+  background: rgba(139, 58, 30, 0.07);
+  border: 1px solid rgba(139, 58, 30, 0.25);
+  border-radius: var(--radius, 2px);
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.schengen__trips {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.schengen__trip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--mist, #E8E0D0);
+  border-radius: var(--radius, 2px);
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.schengen__trip em { color: var(--muted, #6B5E4E); font-style: normal; }
+
+.schengen__trip button {
+  background: none;
+  border: none;
+  color: var(--muted, #6B5E4E);
+  font-size: 14px;
+}
+
+.schengen__trip button:hover { color: var(--error, #8B3A1E); }
+
+.schengen__empty,
+.schengen__disclaimer {
+  font-size: 12.5px;
+  color: var(--muted, #6B5E4E);
+  line-height: 1.6;
+}
+
+.schengen__empty { margin-bottom: 14px; }

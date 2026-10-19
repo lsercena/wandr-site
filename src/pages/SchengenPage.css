@@ -1,0 +1,22 @@
+.schengen-page { padding-top: 48px; }
+.schengen-page .section-desc { margin-bottom: 32px; }
+
+.schengen-page__tips {
+  margin-top: 40px;
+  padding: 28px;
+  border: 1px solid var(--mist, #E8E0D0);
+  border-radius: var(--radius-lg, 8px);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.schengen-page__tips h2 { font-size: 22px; margin-bottom: 14px; }
+
+.schengen-page__tips ul {
+  list-style: disc;
+  padding-left: 20px;
+  color: var(--muted, #6B5E4E);
+  font-size: 14.5px;
+  line-height: 1.75;
+}
+
+.schengen-page__tips strong { color: var(--deep, #2C2016); }

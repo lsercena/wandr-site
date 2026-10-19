@@ -279,3 +279,6 @@
     align-items: flex-start;
   }
 }
+
+.nomad-sort { max-width: 240px; }
+.nomad-filter-group { min-width: 220px; }

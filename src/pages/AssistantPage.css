@@ -339,3 +339,23 @@
     padding: 12px 16px 8px;
   }
 }
+
+/* Blinking caret shown while an answer is streaming in */
+.chat-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.05em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  background: var(--terra, #9E4A1E);
+  border-radius: 1px;
+  animation: chat-caret-blink 0.9s steps(1) infinite;
+}
+
+@keyframes chat-caret-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-cursor { animation: none; }
+}

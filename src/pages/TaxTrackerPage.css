@@ -1,0 +1,22 @@
+.tax-page { padding-top: 48px; }
+.tax-page .section-desc { margin-bottom: 32px; }
+
+.tax-page__notes {
+  margin-top: 40px;
+  padding: 28px;
+  border: 1px solid var(--mist, #E8E0D0);
+  border-radius: var(--radius-lg, 8px);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.tax-page__notes h2 { font-size: 22px; margin-bottom: 14px; }
+
+.tax-page__notes ul {
+  list-style: disc;
+  padding-left: 20px;
+  color: var(--muted, #6B5E4E);
+  font-size: 14.5px;
+  line-height: 1.75;
+}
+
+.tax-page__notes strong { color: var(--deep, #2C2016); }

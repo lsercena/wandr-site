@@ -1,6 +1,14 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import SeoHead from '@/components/ui/SeoHead';
-import { generateItinerary } from '@/services/aiService';
+import ItineraryMarkdown from '@/components/itinerary/ItineraryMarkdown';
+import ItineraryToolbar from '@/components/itinerary/ItineraryToolbar';
+import ItineraryMap from '@/components/map/ItineraryMap';
+import AffiliatePanel from '@/components/monetization/AffiliatePanel';
+import { generateItineraryStreaming } from '@/services/aiService';
+import { generateTripId } from '@/services/libraryService';
+import { useAuth } from '@/context/AuthContext';
+import { useLibrary } from '@/context/LibraryContext';
 import './TravelPlannerPage.css';
 
 const TRAVEL_STYLES = [
@@ -21,6 +29,7 @@ interface PlannerForm {
   styles: string[];
   lodging: string;
   special: string;
+  startDate: string;
 }
 
 const defaultForm: PlannerForm = {
@@ -31,6 +40,7 @@ const defaultForm: PlannerForm = {
   styles: [],
   lodging: 'Mid-range hotels',
   special: '',
+  startDate: '',
 };
 
 function buildPrompt(form: PlannerForm): string {
@@ -53,40 +63,15 @@ Please include:
 - One local insider tip per day`;
 }
 
-function ItineraryDisplay({ content }: { content: string }) {
-  const lines = content.split('\n');
-  return (
-    <div className="itinerary-display">
-      {lines.map((line, i) => {
-        if (line.startsWith('# ')) {
-          return <h2 key={i} className="itinerary-h2">{line.slice(2)}</h2>;
-        }
-        if (line.startsWith('## ') || line.match(/^Day \d+/)) {
-          return <h3 key={i} className="itinerary-h3">{line.replace('## ', '')}</h3>;
-        }
-        if (line.startsWith('### ') || line.match(/^(Morning|Afternoon|Evening):/i)) {
-          return <h4 key={i} className="itinerary-h4">{line.replace('### ', '')}</h4>;
-        }
-        if (line.startsWith('- ') || line.startsWith('• ')) {
-          return <li key={i} className="itinerary-li">{line.slice(2)}</li>;
-        }
-        if (line.startsWith('**') && line.endsWith('**')) {
-          return <strong key={i} className="itinerary-strong">{line.slice(2, -2)}</strong>;
-        }
-        if (line.trim() === '') {
-          return <br key={i} />;
-        }
-        return <p key={i} className="itinerary-p">{line}</p>;
-      })}
-    </div>
-  );
-}
-
 export default function TravelPlannerPage() {
   const [form, setForm] = useState<PlannerForm>(defaultForm);
   const [result, setResult] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showMap, setShowMap] = useState(true);
+  const abortRef = useRef<AbortController | null>(null);
+  const { user } = useAuth();
+  const { saveTrip } = useLibrary();
 
   const update = (partial: Partial<PlannerForm>) =>
     setForm((prev) => ({ ...prev, ...partial }));
@@ -102,28 +87,57 @@ export default function TravelPlannerPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.destination.trim()) return;
+    if (!form.destination.trim() || streaming) return;
 
-    setLoading(true);
+    setStreaming(true);
     setError(null);
-    setResult(null);
+    setResult('');
+
+    const controller = new AbortController();
+    abortRef.current = controller;
 
     try {
       const prompt = buildPrompt(form);
-      const itinerary = await generateItinerary(prompt);
-      setResult(itinerary);
+      let accumulated = '';
+      await generateItineraryStreaming(prompt, {
+        signal: controller.signal,
+        onDelta: (delta) => {
+          accumulated += delta;
+          setResult(accumulated);
+        },
+      });
+      setResult(accumulated);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate itinerary. Please try again.');
+      if (err instanceof Error && err.name === 'AbortError') {
+        // Keep whatever streamed in so far — it's still useful.
+        setResult((prev) => (prev && prev.trim() ? prev : null));
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to generate itinerary. Please try again.');
+        setResult(null);
+      }
     } finally {
-      setLoading(false);
+      abortRef.current = null;
+      setStreaming(false);
     }
+  };
+
+  const handleSaveTrip = () => {
+    if (!result) throw new Error('Nothing to save yet.');
+    return saveTrip({
+      id: generateTripId(),
+      title: `${form.destination} — ${form.duration}`,
+      destination: form.destination,
+      duration: form.duration,
+      startDate: form.startDate || undefined,
+      content: result,
+    });
   };
 
   return (
     <>
       <SeoHead
         title="AI Travel Planner"
-        description="Generate a personalized day-by-day travel itinerary with AI. Tell us your destination, budget, and style and get a detailed trip plan in seconds."
+        description="Generate a personalized day-by-day travel itinerary with AI. Tell us your destination, budget, and style and get a detailed trip plan in seconds — streamed live, with maps and exports."
         path="/travel-planner"
       />
 
@@ -132,7 +146,7 @@ export default function TravelPlannerPage() {
           <p className="section-label">AI Travel Planner</p>
           <h1 className="section-title">Plan Your Perfect Trip</h1>
           <p className="section-desc">
-            Tell us where you're going and we'll generate a detailed, personalized itinerary in seconds.
+            Tell us where you're going and we'll stream a detailed, personalized itinerary in seconds.
           </p>
 
           <div className="planner-layout">
@@ -178,6 +192,17 @@ export default function TravelPlannerPage() {
                 </div>
               </div>
 
+              <div className="form-group">
+                <label className="form-label" htmlFor="start-date">Start date (optional — used for iCal export)</label>
+                <input
+                  id="start-date"
+                  type="date"
+                  className="form-input"
+                  value={form.startDate}
+                  onChange={(e) => update({ startDate: e.target.value })}
+                />
+              </div>
+
               <fieldset className="form-group">
                 <legend className="form-label">Travel Style (pick any)</legend>
                 <div className="planner-style-chips">
@@ -206,28 +231,32 @@ export default function TravelPlannerPage() {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="btn btn-primary btn-lg"
-                style={{ width: '100%' }}
-                disabled={loading || !form.destination.trim()}
-              >
-                {loading ? 'Generating your itinerary…' : 'Generate Itinerary ✦'}
-              </button>
-
-              {loading && (
-                <p className="planner-loading-hint">
-                  This usually takes 15-30 seconds. We're crafting a detailed, personalised plan just for you.
-                </p>
+              {streaming ? (
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-lg planner-stop"
+                  onClick={() => abortRef.current?.abort()}
+                >
+                  ■ Stop generating
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg"
+                  style={{ width: '100%' }}
+                  disabled={!form.destination.trim()}
+                >
+                  Generate Itinerary ✦
+                </button>
               )}
             </form>
 
             <div className="planner-result">
-              {!result && !loading && !error && (
+              {!result && !streaming && !error && (
                 <div className="planner-placeholder">
                   <div className="planner-placeholder__icon" aria-hidden="true">🗺</div>
                   <h2>Your itinerary will appear here</h2>
-                  <p>Fill in your trip details and click Generate to get a personalised day-by-day plan — including specific restaurants, attractions, transport tips, and local insights.</p>
+                  <p>Fill in your trip details and click Generate to get a personalised day-by-day plan — streamed live, with a route map, PDF/iCal exports and shareable links.</p>
                   <div className="planner-placeholder__tips">
                     <p>✦ Tip: Be specific about the destination for better results</p>
                     <p>✦ Tip: Add special requests like "no museums" or "vegan food only"</p>
@@ -235,7 +264,7 @@ export default function TravelPlannerPage() {
                 </div>
               )}
 
-              {loading && (
+              {streaming && !result && (
                 <div className="planner-loading">
                   <div className="planner-loading__spinner" aria-hidden="true">✦</div>
                   <p>Crafting your <strong>{form.duration}</strong> itinerary for <strong>{form.destination}</strong>…</p>
@@ -249,36 +278,66 @@ export default function TravelPlannerPage() {
                 </div>
               )}
 
-              {result && !loading && (
+              {result && (
                 <div className="fade-in">
                   <div className="planner-result-header">
                     <div>
                       <h2>{form.destination} — {form.duration}</h2>
-                      <p>{form.party} · {form.budget}</p>
+                      <p>{form.party} · {form.budget}{streaming ? ' · streaming…' : ''}</p>
                     </div>
                     <div className="planner-result-actions">
                       <button
                         type="button"
-                        className="btn btn-secondary"
-                        onClick={() => {
-                          navigator.clipboard?.writeText(result);
-                        }}
-                        aria-label="Copy itinerary to clipboard"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        type="button"
                         className="btn btn-ghost"
-                        onClick={() => { setResult(null); }}
+                        onClick={() => { setResult(null); setError(null); }}
                       >
                         New Plan
                       </button>
                     </div>
                   </div>
+
+                  <ItineraryToolbar
+                    title={`${form.destination} — ${form.duration}`}
+                    destination={form.destination}
+                    duration={form.duration}
+                    content={result}
+                    startDate={form.startDate || undefined}
+                    canSave={Boolean(user)}
+                    onSave={handleSaveTrip}
+                  />
+
                   <div className="card" style={{ padding: '32px' }}>
-                    <ItineraryDisplay content={result} />
+                    <ItineraryMarkdown content={result} />
+                    {streaming && <span className="planner-stream-cursor" aria-hidden="true" />}
                   </div>
+
+                  <div className="planner-map-wrap">
+                    <div className="planner-map-toggle">
+                      <h3>Route map</h3>
+                      <button
+                        type="button"
+                        className="chip"
+                        onClick={() => setShowMap((v) => !v)}
+                        aria-expanded={showMap}
+                      >
+                        {showMap ? 'Hide map' : 'Show map'}
+                      </button>
+                    </div>
+                    {showMap && !streaming && (
+                      <ItineraryMap content={result} destination={form.destination} />
+                    )}
+                    {streaming && showMap && (
+                      <p className="planner-map-hint">The map appears once generation finishes.</p>
+                    )}
+                  </div>
+
+                  <AffiliatePanel destination={form.destination} variant="itinerary" />
+
+                  {!user && (
+                    <p className="planner-save-hint">
+                      <Link to="/login?next=/travel-planner">Sign in</Link> to save this itinerary to your dashboard and sync it across devices.
+                    </p>
+                  )}
                 </div>
               )}
             </div>

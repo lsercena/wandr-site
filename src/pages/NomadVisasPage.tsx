@@ -6,6 +6,8 @@ import './NomadVisasPage.css';
 
 type DifficultyFilter = 'all' | 'easy' | 'moderate' | 'hard';
 type IncomeFilter = 'all' | 'under2k' | 'under4k' | 'over4k' | 'free';
+type EligibilityFilter = 'all' | 'family' | 'noInsurance' | 'fast';
+type SortOrder = 'default' | 'income' | 'cost' | 'difficulty' | 'processing';
 
 const INCOME_LABELS: Record<IncomeFilter, string> = {
   all: 'Any income',
@@ -14,6 +16,34 @@ const INCOME_LABELS: Record<IncomeFilter, string> = {
   under4k: 'Under $4K/mo',
   over4k: '$4K+/mo',
 };
+
+const ELIGIBILITY_LABELS: Record<EligibilityFilter, string> = {
+  all: 'Any program',
+  family: 'Family-friendly',
+  noInsurance: 'No insurance req.',
+  fast: 'Fast (< 6 weeks)',
+};
+
+const SORT_LABELS: Record<SortOrder, string> = {
+  default: 'Recommended',
+  income: 'Lowest income need',
+  cost: 'Cheapest to apply',
+  difficulty: 'Easiest approval',
+  processing: 'Fastest processing',
+};
+
+const DIFFICULTY_RANK: Record<string, number> = { easy: 0, moderate: 1, hard: 2 };
+
+/** First number in a processing string, converted to weeks. */
+function processingWeeks(text?: string): number {
+  if (!text) return 99;
+  const m = text.match(/(\d+(?:\.\d+)?)/);
+  if (!m) return 99;
+  const value = parseFloat(m[1]);
+  if (/day/i.test(text)) return value / 7;
+  if (/month/i.test(text)) return value * 4.3;
+  return value;
+}
 
 const DIFFICULTY_LABELS: Record<DifficultyFilter, string> = {
   all: 'Any difficulty',
@@ -35,25 +65,59 @@ function DifficultyBadge({ difficulty }: { difficulty: 'easy' | 'moderate' | 'ha
 export default function NomadVisasPage() {
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
   const [incomeFilter, setIncomeFilter] = useState<IncomeFilter>('all');
+  const [eligibilityFilter, setEligibilityFilter] = useState<EligibilityFilter>('all');
+  const [sort, setSort] = useState<SortOrder>('default');
 
   const nomadCountries = countryService.getNomadVisas();
 
-  const filtered = nomadCountries.filter((c) => {
-    const visa = c.digitalNomadVisa;
-    if (!visa.available) return false;
+  const filtered = (() => {
+    const matches = nomadCountries.filter((c) => {
+      const visa = c.digitalNomadVisa;
+      if (!visa.available) return false;
 
-    if (difficultyFilter !== 'all' && visa.approvalDifficulty !== difficultyFilter) return false;
+      if (difficultyFilter !== 'all' && visa.approvalDifficulty !== difficultyFilter) return false;
 
-    if (incomeFilter !== 'all') {
-      const income = parseIncome(visa.incomeRequirement || '0');
-      if (incomeFilter === 'free' && income !== 0) return false;
-      if (incomeFilter === 'under2k' && income >= 2000) return false;
-      if (incomeFilter === 'under4k' && income >= 4000) return false;
-      if (incomeFilter === 'over4k' && income < 4000) return false;
+      if (incomeFilter !== 'all') {
+        const income = parseIncome(visa.incomeRequirement || '0');
+        if (incomeFilter === 'free' && income !== 0) return false;
+        if (incomeFilter === 'under2k' && income >= 2000) return false;
+        if (incomeFilter === 'under4k' && income >= 4000) return false;
+        if (incomeFilter === 'over4k' && income < 4000) return false;
+      }
+
+      if (eligibilityFilter === 'family' && !visa.familyEligibility) return false;
+      if (eligibilityFilter === 'noInsurance' && visa.healthInsuranceRequired) return false;
+      if (eligibilityFilter === 'fast' && processingWeeks(visa.processingTime) > 6) return false;
+
+      return true;
+    });
+
+    switch (sort) {
+      case 'income':
+        return [...matches].sort((a, b) =>
+          parseIncome(a.digitalNomadVisa.incomeRequirement || '0') -
+          parseIncome(b.digitalNomadVisa.incomeRequirement || '0'),
+        );
+      case 'cost':
+        return [...matches].sort((a, b) =>
+          parseIncome(a.digitalNomadVisa.applicationCost || '99999') -
+          parseIncome(b.digitalNomadVisa.applicationCost || '99999'),
+        );
+      case 'difficulty':
+        return [...matches].sort(
+          (a, b) =>
+            (DIFFICULTY_RANK[a.digitalNomadVisa.approvalDifficulty ?? 'hard'] ?? 3) -
+            (DIFFICULTY_RANK[b.digitalNomadVisa.approvalDifficulty ?? 'hard'] ?? 3),
+        );
+      case 'processing':
+        return [...matches].sort((a, b) =>
+          processingWeeks(a.digitalNomadVisa.processingTime) -
+          processingWeeks(b.digitalNomadVisa.processingTime),
+        );
+      default:
+        return matches;
     }
-
-    return true;
-  });
+  })();
 
   const stats = {
     total: nomadCountries.length,
@@ -133,6 +197,36 @@ export default function NomadVisasPage() {
                 ))}
               </div>
             </div>
+
+            <div className="nomad-filter-group">
+              <span className="nomad-filter-label">Eligibility</span>
+              <div className="nomad-filter-chips">
+                {(Object.keys(ELIGIBILITY_LABELS) as EligibilityFilter[]).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    className={`chip ${eligibilityFilter === key ? 'active' : ''}`}
+                    onClick={() => setEligibilityFilter(key)}
+                  >
+                    {ELIGIBILITY_LABELS[key]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="nomad-filter-group">
+              <span className="nomad-filter-label">Sort by</span>
+              <select
+                className="form-select nomad-sort"
+                value={sort}
+                onChange={(e) => setSort(e.target.value as SortOrder)}
+                aria-label="Sort nomad visa programs"
+              >
+                {(Object.keys(SORT_LABELS) as SortOrder[]).map((key) => (
+                  <option key={key} value={key}>{SORT_LABELS[key]}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <p className="nomad-count">
@@ -145,7 +239,12 @@ export default function NomadVisasPage() {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => { setDifficultyFilter('all'); setIncomeFilter('all'); }}
+                onClick={() => {
+                  setDifficultyFilter('all');
+                  setIncomeFilter('all');
+                  setEligibilityFilter('all');
+                  setSort('default');
+                }}
               >
                 Clear Filters
               </button>

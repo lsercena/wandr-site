@@ -108,3 +108,23 @@
     text-align: center;
   }
 }
+
+.navbar__user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--terra, #9E4A1E);
+  color: var(--white, #fff);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+}

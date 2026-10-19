@@ -226,3 +226,47 @@
     min-height: 300px;
   }
 }
+
+/* ── Live auth states (error banner + provider mode note) ─────────────── */
+.login-mode-note {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--mist);
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  margin-bottom: 18px;
+}
+
+.login-error {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--error-bg, #FFF0EB);
+  border: 1px solid rgba(139, 58, 30, 0.3);
+  color: var(--error, #8B3A1E);
+  font-size: 13.5px;
+  line-height: 1.5;
+  padding: 11px 13px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+.login-error button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1;
+  padding: 2px;
+  opacity: 0.7;
+}
+
+.login-error button:hover { opacity: 1; }
+
+.login-social-btn:disabled,
+.login-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.login-switch-btn { text-decoration: underline; }

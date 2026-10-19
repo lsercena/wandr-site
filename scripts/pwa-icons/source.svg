@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Full-bleed app icon: sand field, ink star (✦), terracotta accent -->
+  <rect width="512" height="512" fill="#F5EFE0"/>
+  <path
+    d="M256 96 L292.7 219.3 L416 256 L292.7 292.7 L256 416 L219.3 292.7 L96 256 L219.3 219.3 Z"
+    fill="#0D1B2A"/>
+  <circle cx="398" cy="126" r="34" fill="#C4622D"/>
+</svg>

@@ -65,6 +65,16 @@ export interface DigitalNomadVisa {
   approvalDifficulty?: 'easy' | 'moderate' | 'hard';
 }
 
+export interface CoworkingSpace {
+  name: string;
+  city: string;
+  /** Rough day-pass price in USD. */
+  dayPassUsd?: number;
+  monthlyUsd?: number;
+  url?: string;
+  tags: string[];
+}
+
 export interface RemoteWorkInfo {
   internetSpeed: { download: number; upload: number };
   fiberAvailability: number;
@@ -76,6 +86,8 @@ export interface RemoteWorkInfo {
   simProviders: string[];
   esimProviders: string[];
   vpnRestrictions: boolean;
+  /** Curated, verified coworking recommendations (shown on country pages). */
+  coworking?: CoworkingSpace[];
 }
 
 export interface HousingInfo {
@@ -253,6 +265,23 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  /** True while this message is still streaming in. */
+  streaming?: boolean;
+}
+
+/** A saved, shareable AI-generated trip itinerary (dashboard + share links). */
+export interface TripItinerary {
+  id: string;
+  ownerId: string;
+  title: string;
+  destination: string;
+  duration: string;
+  /** ISO date (yyyy-mm-dd) the trip starts — drives iCal export. */
+  startDate?: string;
+  /** Markdown itinerary body. */
+  content: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ItineraryRequest {

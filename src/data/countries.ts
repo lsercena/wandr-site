@@ -129,6 +129,11 @@ export const countries: Country[] = [
       coverage5G: 90, coworkingSpaces: 200, laptopFriendlyCafes: 500, powerReliability: 99,
       simProviders: ['SoftBank', 'docomo', 'au'], esimProviders: ['Airalo', 'Ubigi', 'Holafly'],
       vpnRestrictions: false,
+      coworking: [
+        { name: 'WeWork Azabudai', city: 'Tokyo', dayPassUsd: 25, monthlyUsd: 380, tags: ['24/7', 'Meeting rooms', 'Shibuya/Azabudai'] },
+        { name: 'Andwork Shibuya', city: 'Tokyo', dayPassUsd: 20, monthlyUsd: 300, tags: ['Design-led', 'Cafe included'] },
+        { name: 'Fukuro Coworking', city: 'Tokyo', dayPassUsd: 18, tags: ['Small & quiet', 'Freelancer-friendly'] },
+      ],
     },
     housing: {
       monthlyRent: { studio: 800, oneBed: 1200, twoBed: 1800, currency: 'USD' },
@@ -199,6 +204,12 @@ export const countries: Country[] = [
       coverage5G: 75, coworkingSpaces: 150, laptopFriendlyCafes: 300, powerReliability: 98,
       simProviders: ['MEO', 'NOS', 'Vodafone'], esimProviders: ['Airalo', 'Holafly'],
       vpnRestrictions: false,
+      coworking: [
+        { name: 'Village Underground Lisboa', city: 'Lisbon', dayPassUsd: 16, monthlyUsd: 230, url: 'https://villageunderground.pt', tags: ['Creative hub', 'Cais do Sodré'] },
+        { name: 'Heden Santos', city: 'Lisbon', dayPassUsd: 15, monthlyUsd: 210, tags: ['Community events', 'Santos'] },
+        { name: 'Cowork Central', city: 'Lisbon', dayPassUsd: 14, monthlyUsd: 190, tags: ['Budget-friendly', 'Baixa'] },
+        { name: 'CRU Cowork', city: 'Porto', dayPassUsd: 12, monthlyUsd: 170, tags: ['Design studio vibe', 'Bonfim'] },
+      ],
     },
     housing: {
       monthlyRent: { studio: 700, oneBed: 1000, twoBed: 1500, currency: 'USD' },
@@ -271,6 +282,12 @@ export const countries: Country[] = [
       coverage5G: 80, coworkingSpaces: 300, laptopFriendlyCafes: 800, powerReliability: 95,
       simProviders: ['AIS', 'TrueMove', 'dtac'], esimProviders: ['Airalo', 'Holafly', 'Ubigi'],
       vpnRestrictions: false,
+      coworking: [
+        { name: 'Punspace', city: 'Chiang Mai', dayPassUsd: 8, monthlyUsd: 105, url: 'https://punspace.com', tags: ['Nomad institution', 'Fibre internet'] },
+        { name: 'CAMP (Maya Lifestyle)', city: 'Chiang Mai', dayPassUsd: 5, monthlyUsd: 60, tags: ['Free with purchase', 'Mall setting'] },
+        { name: 'The Hive Thonglor', city: 'Bangkok', dayPassUsd: 13, monthlyUsd: 190, url: 'https://thehive.co', tags: ['Rooftop cafe', 'Thonglor'] },
+        { name: 'Hubba', city: 'Bangkok', dayPassUsd: 12, monthlyUsd: 175, tags: ['Startup community', 'Ekkamai'] },
+      ],
     },
     housing: {
       monthlyRent: { studio: 300, oneBed: 450, twoBed: 700, currency: 'USD' },
@@ -330,6 +347,10 @@ export const countries: Country[] = [
       coverage5G: 50, coworkingSpaces: 80, laptopFriendlyCafes: 200, powerReliability: 85,
       simProviders: ['Claro', 'Movistar', 'Personal'], esimProviders: ['Airalo'],
       vpnRestrictions: false,
+      coworking: [
+        { name: 'Urban Station Palermo', city: 'Buenos Aires', dayPassUsd: 10, monthlyUsd: 130, tags: ['Argentine chain', 'Palermo Soho'] },
+        { name: 'WeWork Torre Bellavista', city: 'Buenos Aires', dayPassUsd: 18, monthlyUsd: 260, tags: ['24/7', 'Microcentro'] },
+      ],
     },
     housing: {
       monthlyRent: { studio: 350, oneBed: 500, twoBed: 750, currency: 'USD' },
@@ -399,6 +420,17 @@ export const countries: Country[] = [
       requiredDocuments: ['Passport', 'Bank statements', 'Proof of income', 'Application form'],
       approvalDifficulty: 'easy',
     },
+    remoteWork: {
+      internetSpeed: { download: 95, upload: 40 }, fiberAvailability: 75, averageWifi: 70,
+      coverage5G: 65, coworkingSpaces: 120, laptopFriendlyCafes: 350, powerReliability: 88,
+      simProviders: ['Telcel', 'AT&T México', 'Movistar'], esimProviders: ['Airalo', 'Holafly'],
+      vpnRestrictions: false,
+      coworking: [
+        { name: 'WeWork Ámsterdam 270', city: 'Mexico City', dayPassUsd: 16, monthlyUsd: 240, tags: ['24/7', 'Roma Norte-adjacent'] },
+        { name: 'Centraal', city: 'Mexico City', dayPassUsd: 12, monthlyUsd: 180, tags: ['Community-driven', 'Roma Norte'] },
+        { name: 'Nativo Coworking', city: 'Playa del Carmen', dayPassUsd: 14, monthlyUsd: 190, tags: ['Nomad hub', 'Beachside'] },
+      ],
+    },
   }),
 
   baseCountry({
@@ -444,6 +476,17 @@ export const countries: Country[] = [
     costOfLiving: {
       monthlyBudget: { budget: 700, mid: 1400, luxury: 3000, currency: 'USD' },
       housing: 500, food: 250, transportation: 30, healthcare: 40, entertainment: 120, index: 32,
+    },
+    remoteWork: {
+      internetSpeed: { download: 90, upload: 35 }, fiberAvailability: 70, averageWifi: 68,
+      coverage5G: 55, coworkingSpaces: 90, laptopFriendlyCafes: 250, powerReliability: 85,
+      simProviders: ['Claro', 'Movistar', 'WOM'], esimProviders: ['Airalo', 'Holafly'],
+      vpnRestrictions: false,
+      coworking: [
+        { name: 'WeWork Milla de Oro', city: 'Medellín', dayPassUsd: 13, monthlyUsd: 190, tags: ['24/7', 'El Poblado'] },
+        { name: 'Atomhouse Provenza', city: 'Medellín', dayPassUsd: 10, monthlyUsd: 150, tags: ['Nomad favourite', 'Provenza'] },
+        { name: 'Nodo Cowork', city: 'Bogotá', dayPassUsd: 11, monthlyUsd: 160, tags: ['Chapinero', 'Events'] },
+      ],
     },
   }),
 
@@ -494,6 +537,17 @@ export const countries: Country[] = [
     tax: { dayRule183: true, taxResidency: '183 days; 1% tax on foreign income for small business status',
       doubleTaxTreaties: ['US', 'UK', 'DE'], territorialTax: false, zeroIncomeTax: false,
       nomadTaxProgram: 'Small Business Status — 1% tax on turnover up to 500,000 GEL' },
+    remoteWork: {
+      internetSpeed: { download: 110, upload: 55 }, fiberAvailability: 85, averageWifi: 80,
+      coverage5G: 60, coworkingSpaces: 45, laptopFriendlyCafes: 180, powerReliability: 92,
+      simProviders: ['Magti', 'Cellfie', 'Geocell'], esimProviders: ['Airalo', 'Nomad'],
+      vpnRestrictions: false,
+      coworking: [
+        { name: 'Impact Hub Tbilisi', city: 'Tbilisi', dayPassUsd: 9, monthlyUsd: 130, url: 'https://impacthub.net/impact-hub-tbilisi/', tags: ['Community', 'Vera district'] },
+        { name: 'Technopark Georgia', city: 'Tbilisi', dayPassUsd: 8, monthlyUsd: 120, tags: ['Startup ecosystem', 'Free-flex desks'] },
+        { name: 'Cowork Batumi', city: 'Batumi', dayPassUsd: 7, monthlyUsd: 100, tags: ['Seaside', 'Black Sea views'] },
+      ],
+    },
   }),
 
   baseCountry({
@@ -539,6 +593,17 @@ export const countries: Country[] = [
     costOfLiving: {
       monthlyBudget: { budget: 1200, mid: 2200, luxury: 4500, currency: 'USD' },
       housing: 800, food: 350, transportation: 60, healthcare: 70, entertainment: 180, index: 50,
+    },
+    remoteWork: {
+      internetSpeed: { download: 85, upload: 40 }, fiberAvailability: 70, averageWifi: 66,
+      coverage5G: 55, coworkingSpaces: 40, laptopFriendlyCafes: 160, powerReliability: 90,
+      simProviders: ['Kolbi', 'Claro', 'Movistar'], esimProviders: ['Airalo', 'Holafly'],
+      vpnRestrictions: false,
+      coworking: [
+        { name: 'Selina San José', city: 'San José', dayPassUsd: 12, monthlyUsd: 170, tags: ['Coliving + cowork', 'Escazú access'] },
+        { name: 'Impact Hub San José', city: 'San José', dayPassUsd: 10, monthlyUsd: 140, tags: ['Social enterprise', 'Calle 42'] },
+        { name: 'Cloud coworking', city: 'Tamarindo', dayPassUsd: 15, tags: ['Beach town', 'Surf after work'] },
+      ],
     },
   }),
 ];

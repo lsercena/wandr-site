@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import SeoHead from '@/components/ui/SeoHead';
-import { continueConversation, generateMessageId } from '@/services/aiService';
+import { continueConversationStreaming, generateMessageId } from '@/services/aiService';
 import type { ChatMessage } from '@/types';
 import './AssistantPage.css';
 
@@ -59,6 +59,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
           {message.content.split('\n').map((line, i) => (
             <p key={i} style={{ margin: line === '' ? '0.4em 0' : 0 }}>{line}</p>
           ))}
+          {message.streaming && <span className="chat-cursor" aria-hidden="true" />}
         </div>
         <time className="chat-bubble__time" dateTime={message.timestamp.toISOString()}>
           {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -82,6 +83,11 @@ export default function AssistantPage() {
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  const lastMessage = messages[messages.length - 1];
+  const awaitingFirstToken =
+    loading && lastMessage?.role === 'assistant' && lastMessage.content === '';
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -97,26 +103,52 @@ export default function AssistantPage() {
       content: trimmed,
       timestamp: new Date(),
     };
+    const aiMsgId = generateMessageId();
 
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages((prev) => [
+      ...prev,
+      userMsg,
+      { id: aiMsgId, role: 'assistant', content: '', timestamp: new Date(), streaming: true },
+    ]);
     setInput('');
     setLoading(true);
     setError(null);
 
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     try {
       // Pass history excluding the welcome message so the AI doesn't get confused
       const history = messages.filter((m) => m.id !== 'welcome');
-      const reply = await continueConversation(history, trimmed);
-      const aiMsg: ChatMessage = {
-        id: generateMessageId(),
-        role: 'assistant',
-        content: reply,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, aiMsg]);
+      let accumulated = '';
+      await continueConversationStreaming(history, trimmed, {
+        signal: controller.signal,
+        onDelta: (delta) => {
+          accumulated += delta;
+          setMessages((prev) =>
+            prev.map((m) => (m.id === aiMsgId ? { ...m, content: accumulated } : m)),
+          );
+        },
+      });
+      setMessages((prev) =>
+        prev.map((m) => (m.id === aiMsgId ? { ...m, content: accumulated, streaming: false } : m)),
+      );
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      if (err instanceof Error && err.name === 'AbortError') {
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === aiMsgId
+              ? { ...m, streaming: false, content: m.content || '⏹ Response stopped.' }
+              : m,
+          ),
+        );
+      } else {
+        setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+        // Drop the empty placeholder bubble so the transcript stays clean.
+        setMessages((prev) => prev.filter((m) => !(m.id === aiMsgId && !m.content)));
+      }
     } finally {
+      abortRef.current = null;
       setLoading(false);
       inputRef.current?.focus();
     }
@@ -206,7 +238,7 @@ export default function AssistantPage() {
             {messages.map((msg) => (
               <MessageBubble key={msg.id} message={msg} />
             ))}
-            {loading && <TypingIndicator />}
+            {awaitingFirstToken && <TypingIndicator />}
             {error && (
               <div className="chat-error" role="alert">
                 <span>⚠ {error}</span>
@@ -227,17 +259,28 @@ export default function AssistantPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               rows={1}
-              disabled={loading}
               aria-label="Type your question"
             />
-            <button
-              type="submit"
-              className="btn btn-primary chat-send-btn"
-              disabled={loading || !input.trim()}
-              aria-label="Send message"
-            >
-              {loading ? '…' : '↑'}
-            </button>
+            {loading ? (
+              <button
+                type="button"
+                className="btn btn-secondary chat-send-btn"
+                onClick={() => abortRef.current?.abort()}
+                aria-label="Stop generating"
+                title="Stop generating"
+              >
+                ■
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="btn btn-primary chat-send-btn"
+                disabled={!input.trim()}
+                aria-label="Send message"
+              >
+                ↑
+              </button>
+            )}
           </form>
           <p className="chat-hint">Press Enter to send · Shift+Enter for new line</p>
         </main>

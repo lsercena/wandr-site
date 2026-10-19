@@ -36,6 +36,8 @@ export default function Footer() {
             <Link to="/guides">Travel Guides</Link>
             <Link to="/resources">Tax Intelligence</Link>
             <Link to="/travel-planner">Trip Planner</Link>
+            <Link to="/schengen-tracker">Schengen Tracker</Link>
+            <Link to="/tax-tracker">Tax Days Tracker</Link>
           </div>
 
           <div className="footer__col">
